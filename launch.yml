@@ -54,8 +54,8 @@
 
     - name: Wait for SSH connection
       wait_for_connection:
-        delay: 0
-        timeout: 120
+        delay: 1
+        timeout: 360
 
 - hosts: dohosts
 
