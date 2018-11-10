@@ -5,8 +5,12 @@ Digital Ocean Bootstrap
 ```
 $ pip install dopy==0.3.5
 $ ansible-playbook launch.yml 
-<see log1.md>
 ```
+
+![launch.yml playbook starts]
+(https://github.com/mz0/ansible-digitalocean/doc/do1-start.png)
+![launch.yml playbook finishes]
+(https://github.com/mz0/ansible-digitalocean/doc/do1-finish.png)
 
 Bootstrap Digital Ocean droplets using Ansible to:
 
