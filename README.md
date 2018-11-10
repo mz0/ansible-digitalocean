@@ -1,30 +1,15 @@
 Digital Ocean Bootstrap
 =======================
 
-
-```
-$ pip install dopy==0.3.5
-$ ansible-playbook launch.yml 
-```
-
 ![launch.yml playbook starts](/doc/do1-start.png?raw=true)
 ![launch.yml playbook finishes](/doc/do1-finish.png?raw=true)
-
-Bootstrap Digital Ocean droplets using Ansible to:
-
-* Configure SSH key
-* Launch a droplet
-* Destroy droplet
-
-Inspired by [hostmaster/ansible-digitalocean-bootstrap](https://github.com/hostmaster/ansible-digitalocean-bootstrap).
-
 
 Installation
 ------------
 
 * Install [Ansible 2](http://docs.ansible.com/ansible/intro_installation.html)
 
-* Install dopy-0.3.5
+* Install dopy-0.3.5 _pip install dopy==0.3.5_
 
 * Check vars.yml and change the variables to your need.
 
@@ -58,6 +43,8 @@ What this Playbook does for you?
   - AllowGroups=sudo
 - config sudoers
 
+See expected output: doc/do1-log.md
+
 destroy.yml
 -----------
 
@@ -66,6 +53,8 @@ Destroys a server on Digital Ocean.
 ```
 $ ansible-playbook destroy.yml
 ```
+
+Inspired by [hostmaster/ansible-digitalocean-bootstrap](https://github.com/hostmaster/ansible-digitalocean-bootstrap).
 
 Issues:
 -----
