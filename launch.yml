@@ -19,7 +19,7 @@
         api_token={{ do_api_token }}
       register: do_droplet
 
-    - name: Find or create Droplet, then temp. register
+    - name: Find or create Droplet, then register in-memory
       digital_ocean: >
         command=droplet
         state=present
@@ -47,11 +47,11 @@
       add_host: >
         name="{{ do_name }}"
         groups=dohosts
-        ansible_python_interpreter=/usr/bin/python3 ## Ubuntu has neither 'python' nor 'python2' in this image!
+        ansible_python_interpreter=/usr/bin/python3 # this Ubuntu image has no 'python' or  'python2'!
         ansible_ssh_host="{{ do_droplet.droplet.ip_address }}"
         ansible_ssh_user=root
         ansible_ssh_private_key_file="{{ do_ssh_private_key }}"
-        ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+        ansible_ssh_extra_args='-o StrictHostKeyChecking=no' # auto-add host key on 1st connection
 
     - name: Wait for SSH connection
       wait_for_connection:
