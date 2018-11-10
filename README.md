@@ -7,10 +7,8 @@ $ pip install dopy==0.3.5
 $ ansible-playbook launch.yml 
 ```
 
-![launch.yml playbook starts]
-(https://github.com/mz0/ansible-digitalocean/doc/do1-start.png)
-![launch.yml playbook finishes]
-(https://github.com/mz0/ansible-digitalocean/doc/do1-finish.png)
+![launch.yml playbook starts](/doc/do1-start.png?raw=true)
+![launch.yml playbook finishes](/doc/do1-finish.png?raw=true)
 
 Bootstrap Digital Ocean droplets using Ansible to:
 
