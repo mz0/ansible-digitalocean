@@ -64,4 +64,4 @@ The launch.yml playbook was not "idempotent" - on the second attempt it failed o
 If playbook failed on timeout you may restart it but do not use launch.retry - your droplet name is not in ansible/hosts. Start launch.yml again and input the same name as before so in-memory inventory is recreated by quering DO with API.
 
 Checked with Ansible 2.7 from PPA on Ubuntu 18.04 with Python 2.7
-Last update Fri Nov 11, 2018.
+Last update Nov 11, 2018.
