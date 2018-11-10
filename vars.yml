@@ -9,7 +9,7 @@ do_ssh_private_key: "~/.ssh/id_rsa"
 # DO droplet settings
 do_region: fra1
 do_size: s-1vcpu-1gb
-do_image: "ubuntu-18-04-x64"
+do_image: "debian-8-x64"
 
 # Swap settings
 swapfile_location: /swapfile
