@@ -21,9 +21,9 @@
   with_items:
     - { key: 'PubkeyAuthentication',   value: 'yes'}
     - { key: 'ChallengeResponseAuthentication', value: 'no'}
-    - { key: 'PermitRootLogin',        value: 'no'}
+  # - { key: 'PermitRootLogin',        value: 'prohibit-password'}
     - { key: 'PasswordAuthentication', value: 'no'}
-    - { key: 'AllowGroups',            value: '{{ ssh_groups }}' }
+  # - { key: 'AllowGroups',            value: '{{ ssh_groups }}' }
     - { key: 'MaxAuthTries',           value: "5"}
     - { key: 'LoginGraceTime',         value: "60"}
     - { key: 'MaxSessions',            value: "5"}
