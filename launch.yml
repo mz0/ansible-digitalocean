@@ -41,7 +41,7 @@
     #     api_token={{ do_api_token }}
     #   when: do_dns|length > 0
 
-    - debug: msg="IP is {{ do_droplet.droplet.ip_address }}"
+    - debug: msg="Droplet {{ do_name }} {{ do_droplet.droplet.ip_address }}"
 
     - name: Add droplet to in-memory inventory
       add_host: >
