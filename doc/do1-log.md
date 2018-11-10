@@ -1,43 +1,5 @@
 ```
-$ ansible-playbook launch.yml
-Name of server: do1
-
-PLAY [localhost] *****************************************************************
-
-TASK [Gathering Facts] ***********************************************************
-ok: [localhost]
-
-TASK [Register SSH key] **********************************************************
-ok: [localhost]
-
-TASK [Find or create Droplet, then temp. register] *******************************
-changed: [localhost]
-
-TASK [debug] *********************************************************************
-ok: [localhost] => {
-    "msg": "IP is 104.248.251.44"
-}
-
-TASK [Add droplet to temp. inventory] ********************************************
-changed: [localhost]
-
-TASK [Wait for SSH connection] ***************************************************
- [WARNING]: Reset is not implemented for this connection
-
-ok: [localhost]
-
-PLAY [dohosts] *******************************************************************
-
-TASK [Gathering Facts] ***********************************************************
-fatal: [do1]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 104.248.251.44 port 22: Connection refused\r\n", "unreachable": true}
-	to retry, use: --limit @/shr/bemigot/playground/do-ufw1/launch.retry
-
-PLAY RECAP ***********************************************************************
-do1                        : ok=0    changed=0    unreachable=1    failed=0   
-localhost                  : ok=6    changed=2    unreachable=0    failed=0   
-
-mz0@nb13:/shr/bemigot/playground/do-ufw1$ vi launch.yml 
-mz0@nb13:/shr/bemigot/playground/do-ufw1$ ansible-playbook launch.yml
+$ time ansible-playbook launch.yml
 Name of server: do1
 
 PLAY [localhost] *****************************************************************
@@ -56,7 +18,7 @@ ok: [localhost] => {
     "msg": "IP is 68.183.64.13"
 }
 
-TASK [Add droplet to temp. inventory] ********************************************
+TASK [Add droplet to in-memory inventory] ****************************************
 changed: [localhost]
 
 TASK [Wait for SSH connection] ***************************************************
@@ -67,9 +29,6 @@ ok: [localhost]
 PLAY [dohosts] *******************************************************************
 
 TASK [Gathering Facts] ***********************************************************
-The authenticity of host '68.183.64.13 (68.183.64.13)' can't be established.
-ECDSA key fingerprint is SHA256:Hm3lJjlEZj33JFqgRNa1V/7+GyFlw1yWj8awpizXdr4.
-Are you sure you want to continue connecting (yes/no)? yes
 ok: [do1]
 
 TASK [Write swap file] ***********************************************************
@@ -135,4 +94,9 @@ changed: [do1]
 PLAY RECAP ***********************************************************************
 do1                        : ok=18   changed=15   unreachable=0    failed=0   
 localhost                  : ok=6    changed=2    unreachable=0    failed=0   
+
+
+real	4m12,104s
+user	0m32,541s
+sys	0m8,726s
 ```
