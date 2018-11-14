@@ -1,16 +1,10 @@
-- hosts: localhost
-  connection: local
+- hosts: DigitalOcean
+ #connection: local
+  gather_facts: False
   vars_files:
     - vars.yml
-  vars_prompt:
-    - name: do_name
-      prompt: "Name of server"
-      private: no
-  # - name: do_dns
-  #   prompt: "DNS name to bind"
-  #   private: no
   tasks:
-    - name: Register SSH key
+    - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
       digital_ocean: >
         state=present
         command=ssh
@@ -33,14 +27,7 @@
         api_token={{ do_api_token }}
       register: do_droplet
 
-    # - name: Register DNS
-    #   digital_ocean_domain: >
-    #     state=present
-    #     name="{{ do_dns }}"
-    #     id="{{ do_droplet.droplet.id }}"
-    #     api_token={{ do_api_token }}
-    #   when: do_dns|length > 0
-
+  # - debug: var=do_droplet
     - debug: msg="Droplet {{ do_name }} {{ do_droplet.droplet.ip_address }}"
 
     - name: Add droplet to in-memory inventory
@@ -52,6 +39,7 @@
         ansible_ssh_user=root
         ansible_ssh_private_key_file="{{ do_ssh_private_key }}"
         ansible_ssh_extra_args='-o StrictHostKeyChecking=no' # auto-add host key on 1st connection
+      changed_when: false
 
     - name: Wait for SSH connection
       wait_for_connection:
@@ -59,7 +47,7 @@
         timeout: 600 # default 600 seconds
 
 - hosts: dohosts
-
+  #TODO  ansible_ssh_extra_args='-o StrictHostKeyChecking=yes'
   vars_files:
     - defaults/main.yml
     - vars.yml

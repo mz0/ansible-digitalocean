@@ -36,9 +36,9 @@ $ ansible-playbook launch.yml
 What this Playbook does for you?
 
 - configure swap file
-- install ntp, ...
-- make sshd more secure (PasswordAuthentication=no etc.)
-- config sudoers
+- install openntpd
+- configure sshd (PasswordAuthentication=no etc.)
+- configure sudoers
 
 See expected output: doc/do1-log.md
 

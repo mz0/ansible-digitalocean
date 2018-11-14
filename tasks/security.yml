@@ -30,10 +30,3 @@
     - { key: 'MaxStartups',            value: "10:30:60"}
     - { key: 'Port',                   value: '{{ ssh_port }}' }
   notify: restart sshd
-
-# - name: Configure firewall for SSH
-#   ufw: rule=allow port={{ item }}
-#   with_items: "{{ ufw_allow_ports }}"
-#
-# - name: Enable firewall
-#   ufw: state=enabled
