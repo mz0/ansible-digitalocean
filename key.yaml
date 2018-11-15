@@ -1,0 +1,18 @@
+- hosts:
+    DigitalOcean
+  connection: local
+  gather_facts: False
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
+      digital_ocean: >
+        state=present
+        command=ssh
+        name="{{ do_ssh_name }}"
+        ssh_pub_key="{{ do_ssh_pub_key }}"
+        api_token={{ do_api_token }}
+      register: do_droplet
+
+    - debug: var=do_droplet
+      changed_when: False
