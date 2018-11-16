@@ -4,18 +4,6 @@
   vars_files:
     - vars.yml
   tasks:
-  # - digital_ocean_sshkey_facts:
-  #     oauth_token: "{{ do_api_token }}"
-
-  # - set_fact:
-  #     pubkey: "{{ item.public_key }}"
-  #   with_items: "{{ ssh_keys|json_query(ssh_pubkey) }}"
-  #   vars:
-  #     ssh_pubkey: "[?name=='ansible_ctrl']"
-
-  # - debug:
-  #     msg: "{{ pubkey }}"
-
     - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
       digital_ocean:
         state: present
@@ -26,4 +14,4 @@
       register: presentkey
 
     - debug: var=presentkey
-      changed_when: False
+      changed_when: no
