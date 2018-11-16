@@ -1,89 +1,94 @@
 ```
-$ ansible-playbook launch.yml
+mz0@nb13:/shr/bemigot/do1$ ansible-playbook launch.yml
 
-PLAY [DigitalOcean] *********************************************************************
+PLAY [provisioner] **************************************************************
 
-TASK [Ensure DO has SSH key 'ansible' registered] ***************************************
-ok: [DigitalOcean]
+TASK [Ensure DO has SSH key 'ansible' registered] *******************************
+ok: [provisioner]
 
-TASK [Find or create Droplet, then register in-memory] **********************************
-changed: [DigitalOcean]
+TASK [Find or create Droplet, then register in-memory] **************************
+ok: [provisioner]
 
-TASK [debug] ****************************************************************************
-ok: [DigitalOcean] => {
-    "msg": "Droplet de.x302.net 178.128.198.20"
-}
+TASK [Add droplet to in-memory (dynamic) inventory] *****************************
+ok: [provisioner]
 
-TASK [Add droplet to in-memory inventory] ***********************************************
-ok: [DigitalOcean]
+PLAY [dohosts] ******************************************************************
 
-TASK [Wait for SSH connection] **********************************************************
- [WARNING]: Reset is not implemented for this connection
+TASK [Gathering Facts] **********************************************************
+ok: [do1]
 
-ok: [DigitalOcean]
+TASK [Write swap file] **********************************************************
+changed: [do1]
 
-PLAY [dohosts] **************************************************************************
+TASK [Set swapfile permissions] *************************************************
+changed: [do1]
 
-TASK [Gathering Facts] ******************************************************************
-ok: [de.x302.net]
+TASK [Create swapfile] **********************************************************
+changed: [do1]
 
-TASK [Write swap file] ******************************************************************
-changed: [de.x302.net]
+TASK [Enable swapfile] **********************************************************
+changed: [do1]
 
-TASK [Set swapfile permissions] *********************************************************
-changed: [de.x302.net]
+TASK [Add swapfile to /etc/fstab] ***********************************************
+changed: [do1]
 
-TASK [Create swapfile] ******************************************************************
-changed: [de.x302.net]
+TASK [Configure vm.swappiness] **************************************************
+changed: [do1]
 
-TASK [Enable swapfile] ******************************************************************
-changed: [de.x302.net]
+TASK [Configure vm.vfs_cache_pressure] ******************************************
+changed: [do1]
 
-TASK [Add swapfile to /etc/fstab] *******************************************************
-changed: [de.x302.net]
+TASK [Install essential packages] ***********************************************
+changed: [do1]
 
-TASK [Configure vm.swappiness] **********************************************************
-changed: [de.x302.net]
+TASK [Ensure service is enabled and running] ************************************
+ok: [do1] => (item=openntpd)
 
-TASK [Configure vm.vfs_cache_pressure] **************************************************
-changed: [de.x302.net]
+TASK [Ensure sudoers.d is enabled] **********************************************
+ok: [do1]
 
-TASK [Install essential packages] *******************************************************
-changed: [de.x302.net]
+TASK [Set up password-less sudo for admin users] ********************************
+changed: [do1]
 
-TASK [Ensure service is enabled and running] ********************************************
-ok: [de.x302.net] => (item=openntpd)
+TASK [Strict SSH access] ********************************************************
+ok: [do1] => (item={u'key': u'PubkeyAuthentication', u'value': u'yes'})
+ok: [do1] => (item={u'key': u'ChallengeResponseAuthentication', u'value': u'no'})
+changed: [do1] => (item={u'key': u'PasswordAuthentication', u'value': u'no'})
+changed: [do1] => (item={u'key': u'MaxAuthTries', u'value': u'5'})
+changed: [do1] => (item={u'key': u'LoginGraceTime', u'value': u'60'})
+changed: [do1] => (item={u'key': u'MaxSessions', u'value': u'5'})
+changed: [do1] => (item={u'key': u'MaxStartups', u'value': u'10:30:60'})
+ok: [do1] => (item={u'key': u'Port', u'value': 22})
 
-TASK [Ensure sudoers.d is enabled] ******************************************************
-ok: [de.x302.net]
+TASK [Create admin user] ********************************************************
+changed: [do1]
 
-TASK [Set up password-less sudo for admin users] ****************************************
-changed: [de.x302.net]
+TASK [Deploy ssh public key] ****************************************************
+changed: [do1]
 
-TASK [Strict SSH access] ****************************************************************
-ok: [de.x302.net] => (item={u'key': u'PubkeyAuthentication', u'value': u'yes'})
-ok: [de.x302.net] => (item={u'key': u'ChallengeResponseAuthentication', u'value': u'no'})
-changed: [de.x302.net] => (item={u'key': u'PasswordAuthentication', u'value': u'no'})
-changed: [de.x302.net] => (item={u'key': u'MaxAuthTries', u'value': u'5'})
-changed: [de.x302.net] => (item={u'key': u'LoginGraceTime', u'value': u'60'})
-changed: [de.x302.net] => (item={u'key': u'MaxSessions', u'value': u'5'})
-changed: [de.x302.net] => (item={u'key': u'MaxStartups', u'value': u'10:30:60'})
-ok: [de.x302.net] => (item={u'key': u'Port', u'value': 22})
+RUNNING HANDLER [restart sshd] **************************************************
+changed: [do1]
 
-TASK [Create admin user] ****************************************************************
-changed: [de.x302.net]
+RUNNING HANDLER [Reload sysctl] *************************************************
+changed: [do1]
 
-TASK [Deploy ssh public key] ************************************************************
-changed: [de.x302.net]
+PLAY RECAP **********************************************************************
+do1                        : ok=17   changed=14   unreachable=0    failed=0   
+provisioner                : ok=3    changed=0    unreachable=0    failed=0   
 
-RUNNING HANDLER [restart sshd] **********************************************************
-changed: [de.x302.net]
+mz0@nb13:/shr/bemigot/do1$ ansible-playbook destroy.yml 
+Name of server to destroy: de1.x302.net
 
-RUNNING HANDLER [Reload sysctl] *********************************************************
-changed: [de.x302.net]
+PLAY [provisioner] **************************************************************
 
-PLAY RECAP ******************************************************************************
-DigitalOcean               : ok=5    changed=1    unreachable=0    failed=0
-de.x302.net                : ok=17   changed=14   unreachable=0    failed=0
+TASK [Gathering Facts] **********************************************************
+ok: [provisioner]
 
+TASK [Delete droplet] ***********************************************************
+changed: [provisioner]
+
+PLAY RECAP **********************************************************************
+provisioner                : ok=2    changed=1    unreachable=0    failed=0   
+
+mz0@nb13:/shr/bemigot/do1$
 ```

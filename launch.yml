@@ -1,53 +1,57 @@
-- hosts: DigitalOcean
- #connection: local
-  gather_facts: False
+- hosts: provisioner
+  gather_facts: no
   vars_files:
     - vars.yml
   tasks:
     - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
-      digital_ocean: >
-        state=present
-        command=ssh
-        name="{{ do_ssh_name }}"
-        ssh_pub_key="{{ do_ssh_pub_key }}"
-        api_token={{ do_api_token }}
-      register: do_droplet
+      digital_ocean:
+        state: present
+        command: ssh
+        name: "{{ do_ssh_name }}"
+        ssh_pub_key: "{{ do_ssh_pub_key }}"
+        api_token: "{{ do_api_token }}"
+      register: presentkey
 
     - name: Find or create Droplet, then register in-memory
-      digital_ocean: >
-        command=droplet
-        state=present
-        name={{ do_name }}
-        region_id={{ do_region }}
-        size_id={{ do_size }}
-        image_id={{ do_image }}
-        ssh_key_ids={{ do_droplet.ssh_key.id }}
-        unique_name=yes
-        private_networking=no
-        api_token={{ do_api_token }}
+      digital_ocean:
+        command: droplet
+        state: present
+        name: "{{ do_name }}"
+        region_id: "{{ do_region }}"
+        size_id: "{{ do_size }}"
+        image_id: "{{ do_image }}"
+        ssh_key_ids: "{{ presentkey.ssh_key.id }}"
+        unique_name: yes
+        ipv6: no
+        private_networking: no
+        api_token: "{{ do_api_token }}"
+        wait_timeout: 600 # default is 300 (5 minutes), usually it's under 2 minutes.
       register: do_droplet
 
-  # - debug: var=do_droplet
-    - debug: msg="Droplet {{ do_name }} {{ do_droplet.droplet.ip_address }}"
+  # - debug: msg="Droplet {{ do_name }} {{ do_droplet.droplet.ip_address }}"
 
-    - name: Add droplet to in-memory inventory
-      add_host: >
-        name="{{ do_name }}"
-        groups=dohosts
-        #ansible_python_interpreter=/usr/bin/python3 # this Ubuntu image has no 'python' or  'python2'!
-        ansible_ssh_host="{{ do_droplet.droplet.ip_address }}"
-        ansible_ssh_user=root
-        ansible_ssh_private_key_file="{{ do_ssh_private_key }}"
-        ansible_ssh_extra_args='-o StrictHostKeyChecking=no' # auto-add host key on 1st connection
+    - name: Add droplet to in-memory (dynamic) inventory
+      add_host:
+        name: do1
+        groups: dohosts
+      # ansible_python_interpreter: /usr/bin/python3 # DO Ubuntu 18.04 image has no 'python' or 'python2'
+        ansible_ssh_host: "{{ do_droplet.droplet.ip_address }}"
+        ansible_ssh_user: root
+        ansible_ssh_private_key_file: "{{ do_ssh_private_key }}"
+      # ansible_ssh_extra_args: '-o StrictHostKeyChecking=no' # TODO auto-add host key on 1st connection
       changed_when: false
 
-    - name: Wait for SSH connection
-      wait_for_connection:
-        delay: 5
-        timeout: 600 # default 600 seconds
+  # - name: Wait for SSH connection
+  #   wait_for_connection:
+  #     delay: 5
+  #     timeout: 600 # default 600 seconds
 
 - hosts: dohosts
-  #TODO  ansible_ssh_extra_args='-o StrictHostKeyChecking=yes'
+  gather_facts: yes #TODO ensure StrictHostKeyChecking=yes
+  gather_timeout: 600 # default 10
+  vars:
+    ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+
   vars_files:
     - defaults/main.yml
     - vars.yml

@@ -1,4 +1,4 @@
-- hosts: DigitalOcean
+- hosts: provisioner
   vars_files:
     - vars.yml
   vars_prompt:
@@ -7,8 +7,8 @@
       private: no
   tasks:
     - name: Delete droplet
-      digital_ocean: >
-        state=absent
-        name={{ do_name }}
-        unique_name=yes
-        api_token={{ do_api_token }}
+      digital_ocean:
+        state: absent
+        name: "{{ do_name }}"
+        unique_name: yes
+        api_token: "{{ do_api_token }}"
