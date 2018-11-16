@@ -10,5 +10,5 @@
     append=yes
     createhome=yes
 
-- name: Deploy ssh public key
+- name: Copy my ssh pubkey to $USERNAME on the new droplet
   authorized_key: user="{{ ssh_user }}" key="{{ ssh_pub_key }}"

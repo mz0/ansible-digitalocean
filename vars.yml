@@ -5,7 +5,6 @@ do_api_token: "{{ lookup('file', '~/.ssh/do/my.apikey') }}"
 # DO SSH key settings
 do_ssh_name: ansible
 do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-do_ssh_private_key: "~/.ssh/id_rsa"
 
 # DO droplet settings
 do_region: fra1 # 2015.04.14 blog.digitalocean.com/introducing-our-new-european-region-frankfurt/
