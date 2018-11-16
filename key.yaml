@@ -1,17 +1,36 @@
+  # Ensure DO has SSH key '{{ do_ssh_pub_key }}' registered (check fingerprint)
+  #   if not found register with name "{{ do_ssh_name }}"
 - hosts: provisioner
   connection: local
   gather_facts: no
   vars_files:
     - vars.yml
   tasks:
-    - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
-      digital_ocean:
-        state: present
-        command: ssh
-        name: "{{ do_ssh_name }}"
-        ssh_pub_key: "{{ do_ssh_pub_key }}"
-        api_token: "{{ do_api_token }}"
-      register: presentkey
-
-    - debug: var=presentkey
+    - name: Gather facts about SSH key
+      shell: "echo {{ do_ssh_pub_key }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
+      register: cmd_res
       changed_when: no
+  # - debug: var=cmd_res
+    - set_fact: kfprint="{{ cmd_res.stdout }}"
+  # - debug: var=kfprint
+
+    - digital_ocean_sshkey_facts:
+        oauth_token: "{{ do_api_token }}"
+      register: do_keys
+
+#   - debug: var=do_keys
+# "do_keys": { "ansible_facts": { "links": {}, "meta": { "total": 1 }, "ssh_keys": [{
+#      "fingerprint": "1e:f8:e3:b2:0d:dc:15:02:aa:54:15:23:bc:5c:ec:34",
+#      "id": 23493967,
+#      "name": "nb13-do9175",
+#      "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPpiIKXMXvxzYNRAJFNkVMJeeIN5pzvbJI9pf1dNNl9p mz0@nb13"
+#    }] }, "changed": false, "failed": false }
+
+    - set_fact:
+        pubkeyid: "{{ item.id }}"
+        pubkeyn:  "{{ item.name }}"
+      with_items: "{{ ssh_keys|json_query(ssh_pubkey) }}"
+      vars:
+        ssh_pubkey: "[?fingerprint=='{{ kfprint }}']"
+
+    - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
