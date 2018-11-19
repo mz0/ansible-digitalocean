@@ -7,7 +7,7 @@
       private: no
   tasks:
     - name: Delete droplet
-      digital_ocean:
+      digital_okean:
         state: absent
         name: "{{ do_name }}"
         unique_name: yes

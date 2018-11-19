@@ -127,7 +127,7 @@ EXAMPLES = '''
     api_token: XXX
 
 # Create a new Droplet
-# Will return the droplet details including the droplet id (used for idempotence)
+# Will return the droplet details including the droplet id
 
 - digital_ocean:
     state: present
@@ -141,10 +141,7 @@ EXAMPLES = '''
   register: my_droplet
 
 - debug:
-    msg: "ID is {{ my_droplet.droplet.id }}"
-
-- debug:
-    msg: "IP is {{ my_droplet.droplet.ip_address }}"
+    msg: "ID: {{ my_droplet.droplet.id }} IP: {{ my_droplet.droplet.ip_address }}"
 
 # Ensure a droplet is present
 # If droplet id already exist, will return the droplet details and changed = False

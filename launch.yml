@@ -4,7 +4,7 @@
     - vars.yml
   tasks:
     - name: Ensure DO has SSH key '{{ do_ssh_name }}' registered
-      digital_ocean:
+      digital_okean:
         state: present
         command: ssh
         name: "{{ do_ssh_name }}"
@@ -13,7 +13,7 @@
       register: presentkey
 
     - name: Find or create Droplet, then register in-memory
-      digital_ocean:
+      digital_okean:
         command: droplet
         state: present
         name: "{{ do_name }}"
