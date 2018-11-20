@@ -3,12 +3,11 @@
   vars_files:
     - vars.yml
   tasks:
-    - name: Gather facts about SSH key '{{ do_ssh_pub_key }}' (check fingerprint)
+    - name: Gather facts about SSH key (fingerprint look-up)
       shell: "echo {{ do_ssh_pub_key }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
       register: cmd_res
       changed_when: no
     - set_fact: kfprint="{{ cmd_res.stdout }}"
-  # - debug: var=kfprint
 
     - digital_ocean_sshkey_facts:
         oauth_token: "{{ do_api_token }}"
@@ -24,7 +23,7 @@
     - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
 
     - name: Find or create Droplet, then register in-memory
-      digital_okean:
+      digital_ocean:
         command: droplet
         state: present
         name: "{{ do_name }}"
@@ -51,11 +50,6 @@
       # ansible_ssh_extra_args: '-o StrictHostKeyChecking=no' # TODO auto-add host key on 1st connection
       changed_when: false
 
-    - name: Wait for SSH connection
-      wait_for_connection:
-        delay: 2
-       #timeout: 120 # default 600 seconds
-
 - hosts: dohosts
   gather_facts: no  #TODO ensure StrictHostKeyChecking=yes
   vars:
@@ -66,6 +60,8 @@
     - vars.yml
 
   tasks:
+    - name: Wait for SSH connection to a new droplet (some 4-5 seconds is OK)
+      wait_for_connection: timeout=30 # default: 600 seconds
     - include: tasks/swap.yml
     - include: tasks/software.yml
     - include: tasks/security.yml
