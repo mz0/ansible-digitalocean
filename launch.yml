@@ -23,29 +23,29 @@
     - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
 
     - name: Find or create Droplet, then register in-memory
-      digital_ocean:
-        command: droplet
+      digital_ocean_droplet:
         state: present
         name: "{{ do_name }}"
         region_id: "{{ do_region }}"
         size_id: "{{ do_size }}"
         image_id: "{{ do_image }}"
-        ssh_key_ids: "{{ pubkeyid }}"
+        ssh_keys: "{{ pubkeyid }}"
         unique_name: yes
         ipv6: no
         private_networking: no
-        api_token: "{{ do_api_token }}"
-       #wait_timeout: 240 # default is 300 (5 minutes), usually it's under 2 minutes.
+        oauth_token: "{{ do_api_token }}"
+        wait_timeout: 240 # default is 120 (2 minutes), usually it's under 2 minutes.
       register: do_droplet
 
-  # - debug: msg="Droplet {{ do_name }} {{ do_droplet.droplet.ip_address }}"
+  # - debug: var=do_droplet
+  # - debug: msg="Droplet {{ do_name }} {{ do_droplet.data.ip_address }}"
 
     - name: Add droplet to in-memory (dynamic) inventory
       add_host:
         name: do1
         groups: dohosts
       # ansible_python_interpreter: /usr/bin/python3 # DO Ubuntu 18.04 image has no 'python' or 'python2'
-        ansible_ssh_host: "{{ do_droplet.droplet.ip_address }}"
+        ansible_ssh_host: "{{ do_droplet.data.ip_address }}"
         ansible_ssh_user: root
       # ansible_ssh_extra_args: '-o StrictHostKeyChecking=no' # TODO auto-add host key on 1st connection
       changed_when: false

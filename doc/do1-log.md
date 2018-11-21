@@ -1,20 +1,34 @@
 ```
-mz0@nb13:/shr/bemigot/do1$ ansible-playbook launch.yml
+$ time ansible-playbook launch.yml
 
 PLAY [provisioner] **************************************************************
 
-TASK [Ensure DO has SSH key 'ansible' registered] *******************************
+TASK [Gather facts about SSH key (fingerprint look-up)] *************************
 ok: [provisioner]
 
-TASK [Find or create Droplet, then register in-memory] **************************
+TASK [set_fact] *****************************************************************
 ok: [provisioner]
+
+TASK [digital_ocean_sshkey_facts] ***********************************************
+ok: [provisioner]
+
+TASK [set_fact] *****************************************************************
+ok: [provisioner] => (item={u'public_key': u'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyQ5wJKkduGWq7Q1Ar46F+gc61pQiuy6YXKI623/lnz1xVV8y58NSGI5AYs1e5thygB72ZWgZO1w7tXVxyJ3jGS1c1vHAG8myqcu5ZZYdX6rzZ7+HXpcsLTDuqPs8VUhTzDf8kUGwaiMEsG0sHsy98jupxF1iTojBjEmA7rixnVM+EA94Z7KrHmAS9yOYa9P6P0KrnwK4tAz3GtrxyEOGGs9kXQ9B88kQHvQvTTMVG26zbln0Yt3jSqvBIo4nD6gWiKtCsN0Y/2bSrCdy33C/HKr4uHizgHumruDsbECYtga/k7VOQrr3+uc5t7MpXLUxNdGBNN4hnBSrt/DVSSwm/ mz0@nb13', u'id': 23550519, u'name': u'ansible', u'fingerprint': u'04:39:43:86:22:6b:e6:fa:c0:22:38:2d:b2:91:13:9c'})
+
+TASK [debug] ********************************************************************
+ok: [provisioner] => {
+    "msg": "SSH key 04:39:43:86:22:6b:e6:fa:c0:22:38:2d:b2:91:13:9c found, id=23550519, name=ansible"
+}
+
+TASK [Find or create Droplet, then register in-memory] **************************
+changed: [provisioner]
 
 TASK [Add droplet to in-memory (dynamic) inventory] *****************************
 ok: [provisioner]
 
 PLAY [dohosts] ******************************************************************
 
-TASK [Gathering Facts] **********************************************************
+TASK [Wait for SSH connection to a new droplet (some 4-5 seconds is OK)] ********
 ok: [do1]
 
 TASK [Write swap file] **********************************************************
@@ -63,7 +77,7 @@ ok: [do1] => (item={u'key': u'Port', u'value': 22})
 TASK [Create admin user] ********************************************************
 changed: [do1]
 
-TASK [Deploy ssh public key] ****************************************************
+TASK [Copy my ssh pubkey to $USERNAME on the new droplet] ***********************
 changed: [do1]
 
 RUNNING HANDLER [restart sshd] **************************************************
@@ -73,11 +87,16 @@ RUNNING HANDLER [Reload sysctl] ************************************************
 changed: [do1]
 
 PLAY RECAP **********************************************************************
-do1                        : ok=17   changed=14   unreachable=0    failed=0   
-provisioner                : ok=3    changed=0    unreachable=0    failed=0   
+do1                        : ok=17   changed=14   unreachable=0    failed=0
+provisioner                : ok=7    changed=1    unreachable=0    failed=0
 
-mz0@nb13:/shr/bemigot/do1$ ansible-playbook destroy.yml 
-Name of server to destroy: de1.x302.net
+
+real	1m53,327s
+user	0m18,626s
+sys	0m6,611s
+
+$ time ansible-playbook destroy.yml
+Name of server to destroy:
 
 PLAY [provisioner] **************************************************************
 
@@ -88,7 +107,11 @@ TASK [Delete droplet] **********************************************************
 changed: [provisioner]
 
 PLAY RECAP **********************************************************************
-provisioner                : ok=2    changed=1    unreachable=0    failed=0   
+provisioner                : ok=2    changed=1    unreachable=0    failed=0
 
-mz0@nb13:/shr/bemigot/do1$
+
+real	0m4,308s
+user	0m1,784s
+sys	0m0,398s
+
 ```

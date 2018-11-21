@@ -7,8 +7,8 @@
       private: no
   tasks:
     - name: Delete droplet
-      digital_ocean:
+      digital_ocean_droplet:
         state: absent
         name: "{{ do_name }}"
         unique_name: yes
-        api_token: "{{ do_api_token }}"
+        oauth_token: "{{ do_api_token }}"
