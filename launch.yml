@@ -57,7 +57,7 @@
     - vars.yml
 
   tasks:
-    - name: Wait for SSH connection to a new droplet (some 4-5 seconds is OK) # KILLME
+    - name: Wait for SSH connection to the new droplet (some 4-5 seconds is OK) # KILLME
       wait_for_connection: timeout=30 # default: 600 seconds
     - include: tasks/swap.yml
     - include: tasks/software.yml
