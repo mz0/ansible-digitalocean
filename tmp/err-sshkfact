@@ -1,3 +1,0 @@
-You need to install \"jmespath\" prior to running json_query filter
-
-pip2 install --user jmespath
