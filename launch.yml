@@ -20,7 +20,7 @@
       vars:
         ssh_pubkey: "[?fingerprint=='{{ kfprint }}']"
 
-    - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
+  # - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
 
     - name: Find or create Droplet, then register in-memory
       digital_ocean_droplet:
