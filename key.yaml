@@ -1,5 +1,5 @@
   # Ensure DO has SSH key '{{ do_ssh_pub_key }}' registered (check fingerprint)
-  #   if not found register with name "{{ do_ssh_name }}"
+  #   if not found FIXME register with name ??
 - hosts: provisioner
   connection: local
   gather_facts: no

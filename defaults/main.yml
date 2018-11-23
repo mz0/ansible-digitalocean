@@ -2,11 +2,11 @@
 do_api_key: ~
 
 # root user SSH key for new VMs
-do_ssh_name: ansible
 do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 # DO droplet settings
-do_region: fra1        # ams[23] Amsterdam, blr1 Bangalore, fra1 Frankfurt, nyc[123], ...
+# fra1 2015.04.14 blog.digitalocean.com/introducing-our-new-european-region-frankfurt/
+do_region: fra1        # ams[23] Amsterdam, blr1 Bangalore, fra1, nyc[123], ...
 do_size:  s-1vcpu-1gb  # s-1vcpu-2gb, s-2vcpu-2gb, s-1vcpu-3gb, ..., s-32vcpu-192gb.
 do_image: debian-8-x32 # fedora-27-x64, freebsd-11-1-x64-zfs, ubuntu-14-04-x64-do, ...
 
