@@ -8,18 +8,18 @@
     - digital_ocean_sshkey:
         oauth_token: "{{ lookup('file', '~/.ssh/do/my.apikey') }}"
         fingerprint: "{{ fingerprint }}"
-      register: do_key
+      register: key_lookup
       ignore_errors: True
 
     - debug:
-        msg: "SSH key id={{ do_key.data.ssh_key.id }}, name={{ do_key.data.ssh_key.name }}"
-      when: do_key is success
+        msg: "SSH key id={{ key_lookup.data.ssh_key.id }}, name={{ key_lookup.data.ssh_key.name }}"
+      when: key_lookup is success
     - debug:
         msg: "Not found SSH key {{ fingerprint }}"
-      when: do_key is failed
-#   - debug: var=do_key
+      when: key_lookup is failed
+#   - debug: var=key_lookup
      
-#"do_key": {
+#"key_lookup": {
 # "changed": false, 
 # "data": {
 #   "ssh_key": {
