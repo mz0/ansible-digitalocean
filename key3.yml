@@ -1,0 +1,27 @@
+  # Ensure DO has SSH key '{{ do_ssh_pub_key }}' registered (check fingerprint)
+- hosts: provisioner
+  connection: local
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Compute SSH key fingerprint
+      shell: "echo {{ do_ssh_pub_key }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
+      register: cmd_res
+      changed_when: no
+    - set_fact: kfprint="{{ cmd_res.stdout }}"
+
+    - digital_ocean_sshkey:
+        oauth_token: "{{ lookup('file', '~/.ssh/do/my.apikey') }}"
+        fingerprint: "{{ kfprint }}"
+        ssh_pub_key: "{{ do_ssh_pub_key }}"
+      # name:        "{{ ??? }}"
+      register: key_lookup
+      ignore_errors: True
+
+    - debug:
+        msg: "SSH key id={{ key_lookup.data.ssh_key.id }}, name={{ key_lookup.data.ssh_key.name }}"
+      when: key_lookup is success
+    - debug:
+        msg: "Registered SSH key with name={{ key_lookup.data.ssh_key.name }}"
+      when: key_lookup is changed
