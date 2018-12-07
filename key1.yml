@@ -1,12 +1,11 @@
-  # Ensure DO has SSH key '{{ do_ssh_pub_key }}' registered (check fingerprint)
-  #   if not found FIXME register with name ??
+  # Check DO has SSH key '{{ do_ssh_pub_key }}' registered (check fingerprint)
 - hosts: provisioner
   connection: local
   gather_facts: no
   vars_files:
     - vars.yml
   tasks:
-    - name: Gather facts about SSH key
+    - name: Compute SSH key fingerprint
       shell: "echo {{ do_ssh_pub_key }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
       register: cmd_res
       changed_when: no
