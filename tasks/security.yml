@@ -21,11 +21,11 @@
   with_items:
     - { key: 'PubkeyAuthentication',   value: 'yes'}
     - { key: 'ChallengeResponseAuthentication', value: 'no'}
-  # - { key: 'PermitRootLogin',        value: 'prohibit-password'}
+    - { key: 'PermitRootLogin',        value: 'without-password'}
     - { key: 'PasswordAuthentication', value: 'no'}
   # - { key: 'AllowGroups',            value: '{{ ssh_groups }}' }
-    - { key: 'MaxAuthTries',           value: "5"}
-    - { key: 'LoginGraceTime',         value: "60"}
+    - { key: 'MaxAuthTries',           value: "2"}
+    - { key: 'LoginGraceTime',         value: "6"}
     - { key: 'MaxSessions',            value: "5"}
     - { key: 'MaxStartups',            value: "10:30:60"}
     - { key: 'Port',                   value: '{{ ssh_port }}' }
