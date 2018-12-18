@@ -1,5 +1,5 @@
 ```
-$ ansible-playbook launch-A.yml 
+$ time ansible-playbook launch-A.yml 
 
 PLAY [provisioner] **************************************************************
 
@@ -111,7 +111,7 @@ PLAY RECAP *********************************************************************
 do1                        : ok=20   changed=17   unreachable=0    failed=0   
 provisioner                : ok=4    changed=1    unreachable=0    failed=0
 
-real	5m50,640s
-user	0m38,751s
-sys	0m10,861s
+real	4m10,904s
+user	0m24,266s
+sys	0m5,690s
 ```
