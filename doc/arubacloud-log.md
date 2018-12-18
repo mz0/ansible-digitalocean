@@ -1,5 +1,5 @@
 ```
-$ time ansible-playbook launch-A.yml 
+$ time ansible-playbook launch-A.yml
 
 PLAY [provisioner] **************************************************************
 
@@ -9,23 +9,23 @@ changed: [provisioner]
 TASK [Print result] *************************************************************
 ok: [provisioner] => {
     "r1": {
-        "changed": true, 
-        "failed": false, 
+        "changed": true,
+        "failed": false,
         "srv": {
-            "MAC": "00:50:56:9e:a9:50", 
-            "busy": false, 
-            "created": "2018-04-04T11:46:10", 
-            "dc": 1, 
-            "id": 292659, 
-            "ip4": "212.237.9.140", 
-            "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001", 
-            "isON": true, 
-            "jobs": [], 
-            "name": "La", 
-            "password0": "668a55c627579b903486ad91e998d288", 
-            "recharge": "2018-12-30T11:00:00", 
-            "size": "S", 
-            "templateId": 1723, 
+            "MAC": "00:50:56:9e:a9:50",
+            "busy": false,
+            "created": "2018-04-04T11:46:10",
+            "dc": 1,
+            "id": 292659,
+            "ip4": "192.2.9.14",
+            "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001",
+            "isON": true,
+            "jobs": [],
+            "name": "La",
+            "password0": "668a55c627579b903486ad91e998d288",
+            "recharge": "2018-12-30T11:00:00",
+            "size": "S",
+            "templateId": 1723,
             "tplateName": "debian8_x64_1_0"
         }
     }
@@ -111,7 +111,7 @@ PLAY RECAP *********************************************************************
 do1                        : ok=20   changed=17   unreachable=0    failed=0   
 provisioner                : ok=4    changed=1    unreachable=0    failed=0
 
-real	4m10,904s
-user	0m24,266s
-sys	0m5,690s
+real	5m50,640s
+user	0m38,751s
+sys	0m10,861s
 ```
