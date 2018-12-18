@@ -1,10 +1,10 @@
-#- name: Install updates
-#  apt: upgrade=dist update_cache=yes
+- name: Install updates
+  apt: upgrade=dist update_cache=yes
 
 - name: Install essential packages
   apt:
     update_cache: yes
-    pkg: ['openntpd']
+    pkg: ['sudo','openntpd']
     install_recommends: no
 
 - name: Ensure service is enabled and running
