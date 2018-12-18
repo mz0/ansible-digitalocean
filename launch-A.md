@@ -1,7 +1,7 @@
 Requirements
 ------------
 
-* get modules:
+* get modules (set proper /foo/bar :wink:):
 ```
 $ ANSIBLEDEVDIR=/foo/bar; git clone git@github.com:mz0/ansible.git $ANSIBLEDEVDIR
 ```
