@@ -1,8 +1,12 @@
 Requirements
 ------------
 
-1. get modules: *ANSIBLEDEVDIR=/foo/bar; git clone git@github.com:mz0/ansible.git $ANSIBLEDEVDIR*
-1. activate & check it:
+* get modules:
+```
+$ ANSIBLEDEVDIR=/foo/bar; git clone git@github.com:mz0/ansible.git $ANSIBLEDEVDIR
+```
+
+* activate & check it:
 ```
 $ pushd $ANSIBLEDEVDIR
 $ . /hacking/env-setup
