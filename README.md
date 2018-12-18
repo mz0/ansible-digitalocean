@@ -52,6 +52,7 @@ launch-A.yml
 
 Re-launch Debian 8.11 x64 "Smart" VM on
 [Aruba Cloud](https://www.arubacloud.com/vps/virtual-private-server-range.aspx).
+See requirements in [launch-A.md](launch-A.md).
 Note: "Smart" VMs are billed monthly - you do not want them killed and re-created
 without second thought, especially if you have them for €1/mo :wink:
 
