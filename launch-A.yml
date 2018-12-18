@@ -51,10 +51,7 @@
     - name: Wait for SSH connection to VM (some 4-5 seconds is OK)
       wait_for_connection: timeout=30 # default: 600 seconds
     - name: Add ssh pubkey to ~root/.ssh/authorized_keys
-      authorized_key:
-        user: root
-        state: present
-        key: "{{ do_ssh_pub_key }}"
+      authorized_key: user=root state=present key={{ do_ssh_pub_key }}
     - name: disable root password
       user: name=root password='!'
 
