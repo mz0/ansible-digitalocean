@@ -1,16 +1,16 @@
 Requirements
 ------------
 
-* get modules (set proper /foo/bar :wink:):
+* get modules (set proper ~/foo :wink:):
 ```
-$ ANSIBLEDEVDIR=/foo/bar; git clone git@github.com:mz0/ansible.git $ANSIBLEDEVDIR
+$ ANSIBLEDEVDIR=~/foo
+$ mkdir $ANSIBLEDEVDIR && git clone git@github.com:mz0/ansible.git $ANSIBLEDEVDIR
 ```
 
 * activate & check it:
 ```
-$ pushd $ANSIBLEDEVDIR
-$ . /hacking/env-setup
-$ popd
+$ source $ANSIBLEDEVDIR/hacking/env-setup
+  running egg_info ... Setting up Ansible to run out of checkout... Done!
 
 $ ansible --version
 ansible 2.8.0.dev0 (aruba-smart 96456eea13) last updated ...
