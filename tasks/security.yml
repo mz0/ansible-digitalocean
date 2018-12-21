@@ -28,5 +28,4 @@
     - { key: 'LoginGraceTime',         value: "6"}
     - { key: 'MaxSessions',            value: "5"}
     - { key: 'MaxStartups',            value: "10:30:60"}
-    - { key: 'Port',                   value: '{{ ssh_port }}' }
   notify: restart sshd

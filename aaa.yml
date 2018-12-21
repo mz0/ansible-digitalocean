@@ -1,0 +1,5 @@
+- hosts: lab
+  gather_facts: no
+
+  tasks:
+    - include: tasks/ssh-port.yml
