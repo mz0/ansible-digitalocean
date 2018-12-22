@@ -1,0 +1,24 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet static
+	address 86.105.53.69
+	netmask 255.255.255.0
+	gateway 86.105.53.1
+	dns-nameservers 62.149.128.4 62.149.132.4
+
+auto eth0
+iface eth0 inet6 static
+pre-up modprobe ipv6
+	address 2a03:a140:0010:0945:0000:0000:0000:0001
+	netmask 64
+	autoconf 0
+	gateway fe80::1
+	dns-nameservers 2001:4860:4860::8888
+

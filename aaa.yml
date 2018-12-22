@@ -3,3 +3,4 @@
 
   tasks:
     - include: tasks/ssh-port.yml
+    - debug: var=hostvars[inventory_hostname].ansible_host

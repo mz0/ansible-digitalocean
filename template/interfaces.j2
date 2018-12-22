@@ -1,0 +1,21 @@
+# /etc/network/interfaces
+# For more information, see interfaces(5).
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+	address {{ ansible_host }}
+	netmask 255.255.255.0
+	gateway 212.237.9.1
+	dns-nameservers 1.1.1.1 1.0.0.1
+
+auto eth0
+iface eth0 inet6 static
+pre-up modprobe ipv6
+	address {{ ip6 }}
+	netmask 64
+	autoconf 0
+	gateway fe80::1
+	dns-nameservers 2001:4860:4860::8888
