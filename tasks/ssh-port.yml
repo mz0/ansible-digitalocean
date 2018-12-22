@@ -46,7 +46,7 @@
 - name: Confirm host connection works
   ping:
 
-- name: Setup SSH Port {{configured_port}} ; no UseDNS.
+- name: Setup SSH Port {{configured_port}} ; no UseDNS, AcceptEnv.
   become: yes
   lineinfile: >
     path=/etc/ssh/sshd_config
@@ -56,4 +56,5 @@
   with_items:
     - { key: 'Port',   value: '{{ configured_port }}' }
     - { key: 'UseDNS', value: 'no'}
+    - { key: 'AcceptEnv', value: ''}
   notify: Restart sshd
