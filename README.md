@@ -1,19 +1,12 @@
 Cloud server Bootstrap
 =======================
 
-![launch.yml playbook starts](/doc/do1-start.png?raw=true)
-![launch.yml playbook finishes](/doc/do1-finish.png?raw=true)
-
-Digital Ocean configuration
----------------------------
-
-Create a new API key on the [API access page](https://cloud.digitalocean.com/api_access). 
-Add the api_token to the file referenced in `vars.yml`.
+See my nice (albeit outdated) pics: https://github.com/mz0/ansible-do/
 
 Installation
 ------------
 
-* Install [Ansible 2](http://docs.ansible.com/ansible/intro_installation.html)
+* Install 2.8dev -- see [launch-A.md](doc/launch-A.md).
 
 * Check vars.yml and change the variables to your need.
 
@@ -38,6 +31,10 @@ This Playbook will:
 
 See example output: doc/do1-log.md
 
+Note: your [API key](https://cloud.digitalocean.com/api_access) should be
+in the file referenced by `do_api_token` in `vars.yml`.
+
+
 destroy-DO.yml
 -----------
 
@@ -52,9 +49,11 @@ launch-A.yml
 
 Re-launch a Debian 8.11 x64 "Smart" VM on
 [Aruba Cloud](https://www.arubacloud.com/vps/virtual-private-server-range.aspx).
-See requirements in [launch-A.md](doc/launch-A.md).
+
 Note: "Smart" VMs are billed monthly - you do not want them killed and re-created
-without second thought, and if you pay for them €1/mo you likely don't want them deleted at all ;)
+without second thought, and if you pay for them 1Euro/mo you likely don't want them deleted at all ;)
+
+Note: put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
 
 Issues:
 -----
@@ -68,5 +67,5 @@ If playbook failed on timeout you may restart it but do not use launch.retry (ma
 Re-running from the start is the only option now.
 There's very little time lost in case of launch-DO in that case, launch-A is a different story ;)
 
-Checked with Ansible 2.7 from PPA on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 17, 2018.
+Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
+Last update Dec 23, 2018.
