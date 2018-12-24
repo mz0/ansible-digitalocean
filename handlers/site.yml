@@ -5,8 +5,3 @@
 - name: Reload sysctl
   command: sysctl -p
   changed_when: false
-
-- name: Restart sshd
-  become: yes
-  service: name=ssh state=restarted
-  changed_when: false

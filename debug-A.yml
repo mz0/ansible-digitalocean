@@ -1,0 +1,22 @@
+- hosts: lab
+  gather_facts: no
+  vars:
+    do_ssh_pub_key:  "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    ansible_ssh_pass: "5f1045e9f4c4e49627bcf526a4985f41"
+
+  vars_files:
+    - defaults/main.yml
+    - vars.yml
+
+  tasks:
+    - set_fact: ansible_user=root
+    - include: tasks/ssh-rootkey.yml
+    - include: tasks/nic-reset.yml
+    - include: tasks/ssh-port.yml
+    - include: tasks/swap.yml
+    - include: tasks/software.yml
+    - include: tasks/security.yml
+    - include: tasks/users.yml
+
+  handlers:
+    - include: handlers/site.yml

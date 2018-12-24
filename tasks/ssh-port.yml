@@ -1,17 +1,19 @@
 # https://dmsimard.com/2016/03/15/changing-the-ssh-port-with-ansible/
-- set_fact: configured_port={{ ansible_port }} # save port
+- fail: msg="set_port is not set!"
+  when: set_port is not defined
+- set_fact: configured_port={{ set_port }}
 
-- name: Check SSH port 22
+- name: Check port 22 is open
   wait_for:
     port: 22
     host: "{{ ansible_host }}"
-    connect_timeout: 5
-    timeout: 2
+    connect_timeout: 30
+    timeout: 30
   delegate_to: localhost
   ignore_errors: yes
   register: default_ssh
 
-- name: Set ansible_port 22 if open
+- name: Use ansible_port=22 if open
   set_fact:
     ansible_port: 22
     ansible_ssh_extra_args: '-o StrictHostKeyChecking=accept-new' # need OpenSSH >= 7.6
@@ -20,9 +22,9 @@
         default_ssh.state == 'started'
   register: ssh_port_set
 
-- name: Check SSH port {{ ansible_port }}, skip if 22 is OK
+- name: Check SSH port {{ set_port }}, skip if 22 is OK
   wait_for:
-    port: "{{ ansible_port }}"
+    port: "{{ set_port }}"
     host: "{{ ansible_host }}"
     connect_timeout: 5
     timeout: 2
@@ -32,21 +34,21 @@
   when: default_ssh is defined and
         default_ssh.state is undefined
 
-- name: SSH port {{ ansible_port }} is OK.
-  debug: msg="Desired SSH port configuration verified."
+- name: Set SSH port {{ set_port }} if check OK.
+  set_fact: ansible_port={{set_port}}
   when: configured_ssh is defined and
         configured_ssh.state is defined and
         configured_ssh.state == "started"
   register: ssh_port_set
 
-- name: Fail if neither SSH port is 'started'
-  fail: msg="Neither 22 nor {{ansible_port}} is OK!"
+- name: Fail if neither SSH port is open
+  fail: msg="Neither 22 nor {{set_port}} is open!"
   when: ssh_port_set is undefined
 
 - name: Confirm host connection works
   ping:
 
-- name: Setup SSH Port {{configured_port}} ; no UseDNS, AcceptEnv.
+- name: Setup SSH Port {{set_port}} ; no UseDNS, AcceptEnv.
   become: yes
   lineinfile: >
     path=/etc/ssh/sshd_config
@@ -54,7 +56,11 @@
     line='{{ item.key }} {{ item.value }}'
     validate='/usr/sbin/sshd -t -f %s'
   with_items:
-    - { key: 'Port',   value: '{{ configured_port }}' }
+    - { key: 'Port',   value: '{{ set_port }}' }
     - { key: 'UseDNS', value: 'no'}
     - { key: 'AcceptEnv', value: ''}
-  notify: Restart sshd
+
+- name: Restart sshd
+  become: yes
+  service: name=ssh state=restarted
+  changed_when: false

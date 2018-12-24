@@ -1,3 +1,9 @@
-- name: Restart all (but 'lo') interfaces
+- name: fix /etc/network/interfaces - set IPv6 address (if defined)
+  template: src=template/interfaces.j2 dest=/etc/network/interfaces
   become: yes
-  shell: "ifdown --exclude=lo -a; sleep 1; ifup --exclude=lo -a"
+  when: ip6 is defined
+
+- name: Restart all (but 'lo') interfaces (ETA 3.25 seconds)
+  become: yes
+  shell: "/sbin/ifdown --exclude=lo -a; sleep 1; /sbin/ifup --exclude=lo -a"
+  changed_when: false
