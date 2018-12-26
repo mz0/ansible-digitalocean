@@ -28,6 +28,24 @@ ok: [provisioner]
 
 PLAY [dohosts] ******************************************************************
 
+TASK [Check port 22 is open] ****************************************************
+ok: [do1 -> localhost]
+
+TASK [Use ansible_port=22 if open] **********************************************
+ok: [do1]
+
+TASK [Confirm host connection works] ********************************************
+ok: [do1]
+
+TASK [Replace systemd (stage 1 - install sysvinit-core etc.)] *******************
+changed: [do1]
+
+TASK [Reboot to replace systemd (ETA 23 seconds) if sysvinit just installed] ****
+changed: [do1]
+
+TASK [Replace systemd (stage 2 - uninstall systemd)] ****************************
+changed: [do1]
+
 TASK [fail] *********************************************************************
 skipping: [do1]
 
@@ -116,13 +134,13 @@ RUNNING HANDLER [Reload sysctl] ************************************************
 ok: [do1]
 
 PLAY RECAP **********************************************************************
-do1                        : ok=22   changed=14   unreachable=0    failed=0    skipped=4
+do1                        : ok=28   changed=17   unreachable=0    failed=0    skipped=4
 provisioner                : ok=7    changed=1    unreachable=0    failed=0    skipped=0
 
 
-real	4m58,726s
-user	0m33,249s
-sys	0m8,773s
+real	4m28,654s
+user	0m33,588s
+sys	0m9,614s
 
 $ time ansible-playbook destroy-DO.yml
 Name of server to destroy:
@@ -137,8 +155,6 @@ changed: [provisioner]
 
 PLAY RECAP **********************************************************************
 provisioner                : ok=2    changed=1    unreachable=0    failed=0    skipped=0
-
-
 real	0m4,308s
 user	0m1,784s
 sys	0m0,398s

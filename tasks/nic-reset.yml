@@ -1,5 +1,5 @@
 - name: fix /etc/network/interfaces - set IPv6 address (if defined)
-  template: src=template/interfaces.j2 dest=/etc/network/interfaces
+  template: src=interfaces.j2 dest=/etc/network/interfaces
   become: yes
   when: ip6 is defined
 

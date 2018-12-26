@@ -26,8 +26,8 @@ $ ansible-playbook launch-DO.yml
 
 This Playbook will:
 
-- replace systemd with sysvinit (only in `relaunch-A` a.t.m.)
-- change SSH port 22 -> 2222 (set in do1.yml)
+- replace systemd with sysvinit
+- change SSH port 22 -> 2222 (set in do1.yml & hosts.ini)
 - configure swap file
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
