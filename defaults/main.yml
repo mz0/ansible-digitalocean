@@ -1,4 +1,4 @@
-ssh_port: 8022
+ssh_set_port: 8022
 
 # Create admin user
 ssh_user: "{{ lookup('env', 'USERNAME') }}"

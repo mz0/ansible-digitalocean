@@ -25,19 +25,19 @@
     - name: Find or create Droplet, then register in-memory
       digital_ocean_droplet: # FIXME auto-add host key on the 1st connection
         state: present
-        name: "{{ do_name }}"
-        region_id: "{{ do_region }}"
-        size_id: "{{ do_size }}"
-        image_id: "{{ do_image }}"
+        name: "{{ vm_name }}"
+        region_id: "{{ dc }}"
+        size_id: "{{ size }}"
+        image:  "{{ image }}"
         ssh_keys: "{{ pubkeyid }}"
         unique_name: yes
         ipv6: "{{ needIPv6 }}"
         private_networking: no
         oauth_token: "{{ do_api_token }}"
-        wait_timeout: 240 # wait for DO response, default is 120 (2 minutes), usually it's under 2 minutes.
+        wait_timeout: "{{wait_minutes * 60}}" # wait for DO response, default is 120
       register: vm
 
-    - debug: msg="Droplet {{do_name}} {{vm.data.ip_address}} {{vm.data.ipv6_address | default('-')}}"
+    - debug: msg="Droplet {{vm_name}} {{vm.data.ip_address}} {{vm.data.ipv6_address | default('-')}}"
 
     - name: Add droplet to in-memory (dynamic) inventory
       add_host:
@@ -52,9 +52,7 @@
   gather_facts: no
   vars_files:
     - defaults/main.yml
-    - do1.yml
-  vars:
-    set_port: "{{ ssh_port }}"
+    - do1.yml  # TODO: split in two, leave only host-specifics, strip DO details!
 
   tasks:
     - include: tasks/ssh-port.yml

@@ -2,13 +2,13 @@
   vars_files:
     - do1.yml
   vars_prompt:
-    - name: do_name
+    - name: vm_name
       prompt: "Name of server to destroy"
       private: no
   tasks:
     - name: Delete droplet
       digital_ocean_droplet:
         state: absent
-        name: "{{ do_name }}"
+        name: "{{ vm_name }}"
         unique_name: yes
         oauth_token: "{{ do_api_token }}"
