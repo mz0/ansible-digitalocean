@@ -1,5 +1,5 @@
-- fail: msg="do_ssh_pub_key is not defined!"
-  when: do_ssh_pub_key is not defined
+- fail: msg="ssh_pub_key is not defined!"
+  when: ssh_pub_key is not defined
 
 - name: Check SSH port 22
   wait_for:
@@ -45,7 +45,7 @@
 
 - name: Add ssh pubkey to ~root/.ssh/authorized_keys
   become: yes
-  authorized_key: user=root state=present key={{ do_ssh_pub_key }}
+  authorized_key: user=root state=present key={{ ssh_pub_key }}
 
 - name: disable root password
   become: yes

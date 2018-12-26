@@ -1,10 +1,10 @@
 - hosts: provisioner
   gather_facts: no
   vars_files:
-    - vars.yml
+    - do1.yml
   tasks:
     - name: Gather facts about SSH key (fingerprint look-up)
-      shell: "echo {{ do_ssh_pub_key }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
+      shell: "echo {{ root_ssh_pk }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
       register: cmd_res
       changed_when: no
     - set_fact: kfprint="{{ cmd_res.stdout }}"
@@ -16,9 +16,9 @@
     - set_fact:
         pubkeyid: "{{ item.id }}"
         pubkeyn:  "{{ item.name }}"
-      with_items: "{{ ssh_keys|json_query(ssh_pubkey) }}"
+      with_items: "{{ ssh_keys|json_query(pk) }}"
       vars:
-        ssh_pubkey: "[?fingerprint=='{{ kfprint }}']"
+        pk: "[?fingerprint=='{{ kfprint }}']"
 
   # - debug: msg="SSH key {{ kfprint }} found, id={{ pubkeyid }}, name={{ pubkeyn }}"
 
@@ -31,31 +31,30 @@
         image_id: "{{ do_image }}"
         ssh_keys: "{{ pubkeyid }}"
         unique_name: yes
-        ipv6: no
+        ipv6: "{{ needIPv6 }}"
         private_networking: no
         oauth_token: "{{ do_api_token }}"
         wait_timeout: 240 # wait for DO response, default is 120 (2 minutes), usually it's under 2 minutes.
-      register: do_droplet
+      register: vm
 
-    - debug: msg="Droplet {{ do_name }} {{ do_droplet.data.ip_address }}"
+    - debug: msg="Droplet {{do_name}} {{vm.data.ip_address}} {{vm.data.ipv6_address | default('-')}}"
 
     - name: Add droplet to in-memory (dynamic) inventory
       add_host:
         name: do1
         groups: dohosts
-        ansible_host: "{{ do_droplet.data.ip_address }}"
+        ansible_host: "{{ vm.data.ip_address }}"
         ansible_user: root
-        set_port: 2222
+        ansible_ssh_extra_args: '-o StrictHostKeyChecking=accept-new' # need OpenSSH >= 7.6
       changed_when: false
 
 - hosts: dohosts #TODO ensure StrictHostKeyChecking=yes
   gather_facts: no
-  vars:
-    ansible_ssh_extra_args: '-o StrictHostKeyChecking=accept-new' # need OpenSSH >= 7.6
-
   vars_files:
     - defaults/main.yml
-    - vars.yml
+    - do1.yml
+  vars:
+    set_port: "{{ ssh_port }}"
 
   tasks:
     - include: tasks/ssh-port.yml

@@ -1,23 +1,12 @@
 - hosts: lab
   gather_facts: no
+  vars:
+    random_string: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters,digits,punctuation') }}"
 
   tasks:
-    - debug: var=hostvars[inventory_hostname].ip6
+    - debug: var=hostvars[inventory_hostname].ansible_host
 
     - include: tasks/ssh-port.yml
-
-    - name: /etc/network/interfaces with IPv6 address
-      template: src=template/interfaces.j2 dest=/etc/network/interfaces
-      become: yes
-      register: nic
-
-    - name: Restart eth0 (ETA 3.25 seconds)
-      become: yes
-      shell: "/sbin/ifdown --exclude=lo -a; sleep 1; /sbin/ifup --exclude=lo -a"
-      register: res
-      when: nic is changed
-    - debug: var=res
-      when: nic is changed
 
     - name: Replace systemd (stage 1 - install sysvinit-core etc.)
       become: yes
