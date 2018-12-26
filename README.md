@@ -8,7 +8,7 @@ Installation
 
 * Install 2.8dev -- see [launch-A.md](doc/launch-A.md).
 
-* Check vars.yml and change the variables to your need.
+* Check do1.yml/ar1.yml and change the variables to your need.
 
 Playbooks
 =========
@@ -24,6 +24,8 @@ $ ansible-playbook launch-DO.yml
 
 This Playbook will:
 
+- replace systemd with sysvinit
+- change SSH port 22 -> 2222 (set in do1.yml & hosts.ini)
 - configure swap file
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
@@ -32,7 +34,7 @@ This Playbook will:
 See example output: doc/do1-log.md
 
 Note: your [API key](https://cloud.digitalocean.com/api_access) should be
-in the file referenced by `do_api_token` in `vars.yml`.
+in the file referenced by `do_api_token` in `do1.yml`.
 
 
 destroy-DO.yml
@@ -44,7 +46,7 @@ Destroy your droplet.
 $ ansible-playbook destroy-DO.yml
 ```
 
-launch-A.yml
+relaunch-A.yml
 ----------
 
 Re-launch a Debian 8.11 x64 "Smart" VM on
@@ -65,7 +67,7 @@ The launch-DO.yml playbook was not "idempotent" - on the second attempt it faile
 
 If playbook failed on timeout you may restart it but do not use launch.retry (may need dynamic inventory - FIXME).
 Re-running from the start is the only option now.
-There's very little time lost in case of launch-DO in that case, launch-A is a different story ;)
+There's very little time lost in case of `launch-DO` in that case, `relaunch-A` is a different story ;)
 
 Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 23, 2018.
+Last update Dec 26, 2018. Remembering [Decembrist uprising](https://en.wikipedia.org/wiki/Decembrist_revolt)

@@ -55,6 +55,7 @@
     - do1.yml  # TODO: split in two, leave only host-specifics, strip DO details!
 
   tasks:
+    - include: tasks/sysvinit.yml
     - include: tasks/ssh-port.yml
     - include: tasks/swap.yml
     - include: tasks/software.yml
