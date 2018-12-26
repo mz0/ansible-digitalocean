@@ -10,7 +10,7 @@ Installation
 * Install either [Ansible 2.7](http://docs.ansible.com/ansible/intro_installation.html) -
 good for all but relaunch-A playbook, or 2.8dev -- see [launch-A.md](doc/launch-A.md).
 
-* Check vars.yml and change the variables to your need.
+* Check do1.yml/ar1.yml and change the variables to your need.
 
 Playbooks
 =========
@@ -36,7 +36,7 @@ This Playbook will:
 See example output: doc/do1-log.md
 
 Note: your [API key](https://cloud.digitalocean.com/api_access) should be
-in the file referenced by `do_api_token` in `vars.yml`.
+in the file referenced by `do_api_token` in `do1.yml`.
 
 
 destroy-DO.yml
@@ -69,7 +69,7 @@ The launch-DO.yml playbook was not "idempotent" - on the second attempt it faile
 
 If playbook failed on timeout you may restart it but do not use launch.retry (may need dynamic inventory - FIXME).
 Re-running from the start is the only option now.
-There's very little time lost in case of launch-DO in that case, launch-A is a different story ;)
+There's very little time lost in case of `launch-DO` in that case, `relaunch-A` is a different story ;)
 
 Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
 Last update Dec 26, 2018. Remembering [Decembrist uprising](https://en.wikipedia.org/wiki/Decembrist_revolt)
