@@ -26,6 +26,8 @@ $ ansible-playbook launch-DO.yml
 
 This Playbook will:
 
+- replace systemd with sysvinit (only in `relaunch-A` a.t.m.)
+- change SSH port 22 -> 2222 (set in do1.yml)
 - configure swap file
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
@@ -46,7 +48,7 @@ Destroy your droplet.
 $ ansible-playbook destroy-DO.yml
 ```
 
-launch-A.yml
+relaunch-A.yml
 ----------
 
 Re-launch a Debian 8.11 x64 "Smart" VM on
@@ -70,4 +72,4 @@ Re-running from the start is the only option now.
 There's very little time lost in case of launch-DO in that case, launch-A is a different story ;)
 
 Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 23, 2018.
+Last update Dec 26, 2018. Remembering [Decembrist uprising](https://en.wikipedia.org/wiki/Decembrist_revolt)
