@@ -19,13 +19,13 @@ ok: [provisioner] => {
         "changed": true,
         "failed": false,
         "srv": {
-            "MAC": "00:50:56:9e:a9:50",
+            "MAC": "00:50:56:9e:ae:44",
             "busy": false,
             "created": "2018-04-04T11:46:10",
             "dc": 1,
-            "id": 29652,
-            "ip4": "192.2.9.14",
-            "ip6": "2001:0DB8:0000:900c:0000:0000:0000:0001",
+            "id": 292659,
+            "ip4": "212.237.9.140",
+            "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001",
             "isON": true,
             "jobs": [],
             "name": "La",
@@ -74,6 +74,15 @@ TASK [fix /etc/network/interfaces - set IPv6 address (if defined)] *************
 changed: [lab]
 
 TASK [Restart all (but 'lo') interfaces (ETA 3.25 seconds)] *********************
+ok: [lab]
+
+TASK [Check port 22 is open] ****************************************************
+ok: [lab -> localhost]
+
+TASK [Use ansible_port=22 if open] **********************************************
+ok: [lab]
+
+TASK [Confirm host connection works] ********************************************
 ok: [lab]
 
 TASK [Replace systemd (stage 1 - install sysvinit-core etc.)] *******************
@@ -173,11 +182,11 @@ RUNNING HANDLER [Reload sysctl] ************************************************
 ok: [lab]
 
 PLAY RECAP **********************************************************************
-lab                        : ok=31   changed=20   unreachable=0    failed=0    skipped=8
+lab                        : ok=34   changed=20   unreachable=0    failed=0    skipped=8
 provisioner                : ok=4    changed=1    unreachable=0    failed=0    skipped=0
 
 
-real	6m53,733s
-user	0m45,943s
-sys	0m13,418s
+real	6m39,302s
+user	0m50,484s
+sys	0m15,431s
 ```
