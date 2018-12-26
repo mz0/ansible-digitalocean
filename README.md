@@ -8,7 +8,7 @@ Installation
 ------------
 
 * Install either [Ansible 2.7](http://docs.ansible.com/ansible/intro_installation.html) -
-good for all but launch-A playbook, or 2.8dev -- see [launch-A.md](doc/launch-A.md).
+good for all but relaunch-A playbook, or 2.8dev -- see [launch-A.md](doc/launch-A.md).
 
 * Check vars.yml and change the variables to your need.
 
