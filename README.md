@@ -7,8 +7,8 @@ Cloud server Bootstrap
 Installation
 ------------
 
-* Install either [Ansible 2.7](http://docs.ansible.com/ansible/intro_installation.html) -
-good for all but relaunch-A playbook, or 2.8dev -- see [launch-A.md](doc/launch-A.md).
+* Install [Ansible 2.7](http://docs.ansible.com/ansible/intro_installation.html) 
+ or newer (e.g. see [running development version](doc/run-ansible-2.8dev0.md)).
 
 * Check do1.yml/ar1.yml and change the variables to your need.
 
@@ -72,4 +72,4 @@ Re-running from the start is the only option now.
 There's very little time lost in case of `launch-DO` in that case, `relaunch-A` is a different story ;)
 
 Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 26, 2018. Remembering [Decembrist uprising](https://en.wikipedia.org/wiki/Decembrist_revolt)
+Last update Dec 27, 2018.
