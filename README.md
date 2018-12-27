@@ -52,10 +52,14 @@ relaunch-A.yml
 Re-launch a Debian 8.11 x64 "Smart" VM on
 [Aruba Cloud](https://www.arubacloud.com/vps/virtual-private-server-range.aspx).
 
-Note: "Smart" VMs are billed monthly - you do not want them killed and re-created
+Note:
+
+* "Smart" VMs are billed monthly - you do not want them killed and re-created
 without second thought, and if you pay for them 1Euro/mo you likely don't want them deleted at all ;)
 
-Note: put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
+* put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
+
+* `listsrv-A.yml` lets you check ArubaCloud server status, queued jobs and their progress.
 
 Issues:
 -----
