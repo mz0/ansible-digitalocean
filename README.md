@@ -15,10 +15,10 @@ Installation
 Playbooks
 =========
 
-launch-DO.yml
+launch-DO.yml / destroy-DO.yml
 ----------
 
-Launch a new Debian 8.11 x64 droplet on Digital Ocean.
+Launch / destroy a Debian 8.11 x64 droplet on Digital Ocean.
 
 ```
 $ ansible-playbook launch-DO.yml
@@ -33,20 +33,10 @@ This Playbook will:
 - configure sshd (PasswordAuthentication=no etc.)
 - configure sudoers
 
-See example output: doc/do1-log.md
+See output sample: doc/do1-log.md
 
 Note: your [API key](https://cloud.digitalocean.com/api_access) should be
 in the file referenced by `do_api_token` in `do1.yml`.
-
-
-destroy-DO.yml
------------
-
-Destroy your droplet.
-
-```
-$ ansible-playbook destroy-DO.yml
-```
 
 relaunch-A.yml
 ----------
