@@ -1,7 +1,7 @@
 - hosts: provisioner
   gather_facts: no
   vars_files:
-    ar1.yml
+    vars/ar1.yml
   tasks:
     - name: Ensure server is like new - re-image from current template - ETA 3-{{wait_minutes}} minutes
       it_aruba_smart_vm:
@@ -40,8 +40,8 @@
     ssh_pub_key:  "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
   vars_files:
-    - defaults/main.yml
-    - ar1.yml # TODO split in two, strip Aruba details.
+    - vars/main.yml
+    - vars/ar1.yml # TODO split in two, strip Aruba details.
 
   tasks:
     - include: tasks/ssh-rootkey.yml

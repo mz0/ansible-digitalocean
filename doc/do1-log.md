@@ -134,13 +134,13 @@ RUNNING HANDLER [Reload sysctl] ************************************************
 ok: [do1]
 
 PLAY RECAP **********************************************************************
-do1                        : ok=28   changed=17   unreachable=0    failed=0    skipped=4
-provisioner                : ok=7    changed=1    unreachable=0    failed=0    skipped=0
+do1                        : ok=28   changed=17   unreachable=0    failed=0
+provisioner                : ok=7    changed=1    unreachable=0    failed=0
 
 
-real	4m28,654s
-user	0m33,588s
-sys	0m9,614s
+real	3m46,814s
+user	0m31,846s
+sys	0m9,913s
 
 $ time ansible-playbook destroy-DO.yml
 Name of server to destroy:
@@ -154,7 +154,8 @@ TASK [Delete droplet] **********************************************************
 changed: [provisioner]
 
 PLAY RECAP **********************************************************************
-provisioner                : ok=2    changed=1    unreachable=0    failed=0    skipped=0
+provisioner                : ok=2    changed=1    unreachable=0    failed=0
+
 real	0m4,308s
 user	0m1,784s
 sys	0m0,398s

@@ -12,36 +12,13 @@
   register: default_ssh
 
 - name: Set ansible_port 22 if open
-  set_fact:
-    ansible_port: 22
-    ansible_ssh_extra_args: '-o StrictHostKeyChecking=accept-new' # need OpenSSH >= 7.6
+  set_fact: ansible_port=22
   when: default_ssh is defined and
         default_ssh.state is defined and
         default_ssh.state == 'started'
-  register: ssh_port_set
 
-- name: Check SSH port {{ ansible_port }}, skip if 22 is OK
-  wait_for:
-    port: "{{ ansible_port }}"
-    host: "{{ ansible_host }}"
-    connect_timeout: 5
-    timeout: 2
-  delegate_to: localhost
-  ignore_errors: yes
-  register: configured_ssh
-  when: default_ssh is defined and
-        default_ssh.state is undefined
-
-- name: SSH port {{ ansible_port }} is OK.
-  debug: msg="Desired SSH port configuration verified."
-  when: configured_ssh is defined and
-        configured_ssh.state is defined and
-        configured_ssh.state == "started"
-  register: ssh_port_set
-
-- name: Fail if neither SSH port is 'started'
-  fail: msg="Neither 22 nor {{ansible_port}} is OK!"
-  when: ssh_port_set is undefined
+- name: Check host connection
+  ping:
 
 - name: Add ssh pubkey to ~root/.ssh/authorized_keys
   become: yes

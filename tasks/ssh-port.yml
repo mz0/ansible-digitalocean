@@ -13,9 +13,7 @@
   register: default_ssh
 
 - name: Use ansible_port=22 if open
-  set_fact:
-    ansible_port: 22
-    ansible_ssh_extra_args: '-o StrictHostKeyChecking=accept-new' # need OpenSSH >= 7.6
+  set_fact: ansible_port=22
   when: default_ssh is defined and
         default_ssh.state is defined and
         default_ssh.state == 'started'

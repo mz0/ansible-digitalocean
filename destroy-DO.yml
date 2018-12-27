@@ -1,6 +1,6 @@
 - hosts: provisioner
   vars_files:
-    - do1.yml
+    - vars/do1.yml
   vars_prompt:
     - name: vm_name
       prompt: "Name of server to destroy"

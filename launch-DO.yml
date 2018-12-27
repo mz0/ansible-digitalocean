@@ -1,7 +1,7 @@
 - hosts: provisioner
   gather_facts: no
   vars_files:
-    - do1.yml
+    - vars/do1.yml
   tasks:
     - name: Gather facts about SSH key (fingerprint look-up)
       shell: "echo {{ root_ssh_pk }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
@@ -51,8 +51,8 @@
 - hosts: dohosts #TODO ensure StrictHostKeyChecking=yes
   gather_facts: no
   vars_files:
-    - defaults/main.yml
-    - do1.yml  # TODO: split in two, leave only host-specifics, strip DO details!
+    - vars/main.yml
+    - vars/do1.yml  # TODO: split in two, leave only host-specifics, strip DO details!
 
   tasks:
     - include: tasks/sysvinit.yml
