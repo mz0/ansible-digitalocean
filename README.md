@@ -38,7 +38,7 @@ See output sample: doc/do1-log.md
 Note: your [API key](https://cloud.digitalocean.com/api_access) should be
 in the file referenced by `do_api_token` in `do1.yml`.
 
-relaunch-A.yml
+relaunch-A.yml / listsrv-A.yml
 ----------
 
 Re-launch a Debian 8.11 x64 "Smart" VM on
@@ -51,7 +51,7 @@ without second thought, and if you pay for them 1Euro/mo you likely don't want t
 
 * put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
 
-* `listsrv-A.yml` lets you check ArubaCloud server status, queued jobs and their progress.
+* `listsrv-A.yml` lets you check ArubaCloud server status, queued task and its progress.
 
 Issues:
 -----
