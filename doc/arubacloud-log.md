@@ -1,9 +1,10 @@
 ```
-$ source $ANSIBLEDEVDIR/hacking/env-setup
 $ ansible-playbook --version
-ansible-playbook 2.8.0.dev0 (devel 3a53296a55) last updated 2018/12/23
-  ansible python module location = $ANSIBLEDEVDIR/lib/ansible
-  executable location = $ANSIBLEDEVDIR/bin/ansible-playbook
+ansible-playbook 2.7.5
+  config file = ./ansible.cfg
+  configured module search path = []
+  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
   python version = 2.7.15+ (default, Oct  2 2018, 22:12:08) [GCC 8.2.0]
 
 $ time ansible-playbook relaunch-A.yml
@@ -55,14 +56,8 @@ ok: [lab -> localhost]
 TASK [Set ansible_port 22 if open] **********************************************
 ok: [lab]
 
-TASK [Check SSH port 22, skip if 22 is OK] **************************************
-skipping: [lab]
-
-TASK [SSH port 22 is OK.] *******************************************************
-skipping: [lab]
-
-TASK [Fail if neither SSH port is 'started'] ************************************
-skipping: [lab]
+TASK [Check host connection] ****************************************************
+ok: [lab]
 
 TASK [Add ssh pubkey to ~root/.ssh/authorized_keys] *****************************
 changed: [lab]
@@ -173,11 +168,10 @@ RUNNING HANDLER [Reload sysctl] ************************************************
 ok: [lab]
 
 PLAY RECAP **********************************************************************
-lab                        : ok=31   changed=20   unreachable=0    failed=0    skipped=8
-provisioner                : ok=4    changed=1    unreachable=0    failed=0    skipped=0
+lab                        : ok=35   changed=20   unreachable=0    failed=0
+provisioner                : ok=4    changed=1    unreachable=0    failed=0
 
-
-real	6m53,733s
-user	0m45,943s
-sys	0m13,418s
+real	6m36,783s
+user	0m48,147s
+sys	0m14,362s
 ```
