@@ -1,12 +1,12 @@
 Cloud server Bootstrap
 =======================
 
-See my nice (albeit outdated) pics: https://github.com/mz0/ansible-do/
+See my nice albeit outdated pics: https://github.com/mz0/ansible-do/
 
 Installation
 ------------
 
-* Install 2.8dev -- see [launch-A.md](doc/launch-A.md).
+* Ansible 2.7.5 or newer
 
 * Check do1.yml/ar1.yml and change the variables to your need.
 
@@ -70,4 +70,4 @@ Re-running from the start is the only option now.
 There's very little time lost in case of `launch-DO` in that case, `relaunch-A` is a different story ;)
 
 Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 26, 2018. Remembering [Decembrist uprising](https://en.wikipedia.org/wiki/Decembrist_revolt)
+Last update Dec 27, 2018.
