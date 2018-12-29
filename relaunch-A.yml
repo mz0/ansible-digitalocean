@@ -48,8 +48,9 @@
     - include: tasks/nic-reset.yml
     - include: tasks/sysvinit.yml
     - include: tasks/ssh-port.yml
+    - include: tasks/reclaim-swrsvd.yml
 
-    - include: tasks/swap.yml
+    # include: tasks/swap.yml
     - include: tasks/software.yml
     - include: tasks/security.yml
     - include: tasks/users.yml

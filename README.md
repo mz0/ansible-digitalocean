@@ -1,4 +1,4 @@
-Cloud server Bootstrap
+Uniform cloud server environments
 =======================
 
 See my nice albeit outdated pics: https://github.com/mz0/ansible-do/
@@ -41,6 +41,7 @@ relaunch-A.yml / listsrv-A.yml
 
 Re-launch a Debian 8.11 x64 "Smart" VM on
 [Aruba Cloud](https://www.arubacloud.com/vps/virtual-private-server-range.aspx).
+Configuration is very much alike the one above.
 
 Note:
 
@@ -50,6 +51,8 @@ without second thought, and if you pay for them 1Euro/mo you likely don't want t
 * put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
 
 * `listsrv-A.yml` lets you check ArubaCloud server status, queued task and its progress.
+
+* "Smart server" has Swap space pre-allocated as LVMs LV. We [reclaim this space](tasks/reclaim-swrsvd.yml)
 
 Issues:
 -----

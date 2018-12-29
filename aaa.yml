@@ -4,35 +4,9 @@
     random_string: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters,digits,punctuation') }}"
 
   tasks:
-    - debug: var=hostvars[inventory_hostname].ansible_host
+    - debug: var=hostvars[inventory_hostname].ansible_port
+    - set_fact: ansible_port=2222
+    - include: tasks/reclaim-swrsvd.yml
 
-    - include: tasks/ssh-port.yml
-
-    - name: Replace systemd (stage 1 - install sysvinit-core etc.)
-      become: yes
-      apt:
-        update_cache: no
-        pkg: ['sysvinit-core','sysvinit-utils']
-        install_recommends: no
-      register: initsystem
-
-    - name: Reboot to replace systemd (ETA 23 seconds) if sysvinit just installed
-      become: yes
-      reboot: # Ansible 2.7 required
-      register: res
-      when: initsystem is changed
-    - debug: var=res
-      when: initsystem is changed
-
-    - name: Replace systemd (stage 2 - uninstall systemd)
-      become: yes
-      apt:
-        state: absent
-        purge: yes
-        autoremove: yes
-        pkg: ['systemd']
-      register: res
-    - debug: var=res
-
-  handlers:
-    - include: handlers/site.yml
+# handlers:
+#   - include: handlers/site.yml
