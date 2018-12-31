@@ -1,0 +1,11 @@
+- name: Add repos
+  become: yes
+  apt_repository: repo={{ item }} filename="EMP"
+  loop: "{{ repo_list }}"
+  register: add_repos
+
+- name: Add repo keys
+  become: yes
+  apt_key: id={{ item }} keyserver='keyserver.ubuntu.com'
+  loop:  "{{ repo_keys }}"
+  register: add_repokeys
