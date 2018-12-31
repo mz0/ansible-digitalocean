@@ -42,6 +42,8 @@
   vars_files:
     - vars/main.yml
     - vars/ar1.yml # TODO split in two, strip Aruba details.
+    # vars/trim-aruba.yml
+    - vars/trim0-aruba.yml
 
   tasks:
     - include: tasks/ssh-rootkey.yml
@@ -54,6 +56,8 @@
     - include: tasks/software.yml
     - include: tasks/security.yml
     - include: tasks/users.yml
+    - include: tasks/trim.yml
+    - debug: var=uninstall
 
   handlers:
     - include: handlers/site.yml

@@ -2,11 +2,15 @@
   gather_facts: no
   vars:
     random_string: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters,digits,punctuation') }}"
+ #vars_files: vars/trim-aruba.yml
+  vars_files: vars/trim0-aruba.yml
 
   tasks:
     - debug: var=hostvars[inventory_hostname].ansible_port
     - set_fact: ansible_port=2222
-    - include: tasks/reclaim-swrsvd.yml
+    - include: tasks/trim.yml
+    - debug: var=uninstall
+    - debug: var=ssh_back
 
 # handlers:
 #   - include: handlers/site.yml
