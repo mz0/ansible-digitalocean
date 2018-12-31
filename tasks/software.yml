@@ -4,7 +4,7 @@
 - name: Install essential packages
   apt:
     update_cache: yes
-    pkg: ['sudo','openntpd']
+    pkg: ['sudo','openssh-server','openssh-sftp-server','openntpd']
     install_recommends: no
 
 - name: Ensure service is enabled and running

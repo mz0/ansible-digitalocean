@@ -17,16 +17,6 @@
         default_ssh.state == 'started'
 ##### TODO consider resetting ansible_port in launch-/relaunch- playbooks ###
 
-- name: Confirm host connection works
-  ping:
-
-- name: Ensure OpenSSH is installed
-  become: yes
-  apt:
-    name: ["openssh-sftp-server", "openssh-server"]
-    state: present
-  register: ssh_back
-
 - name: Purge unused packages
   become: yes
   apt:

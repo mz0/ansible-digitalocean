@@ -1,5 +1,7 @@
 trim_list:
   - aptitude
+  - aptitude-common
+  - apt-listchanges
   - at
   - bash-completion
   - bind9-host
@@ -210,6 +212,7 @@ trim_list:
   - task-english
   - tasksel
   - tasksel-data
+  - tcpd
   - texinfo
   - util-linux-locales
   - vim
@@ -220,3 +223,14 @@ trim_list:
   - xdg-user-dirs
   - xkb-data
   - zerofree
+  - krb5-locales
+  - aptitude-doc-en
+  - fontconfig-config
+  - ttf-bitstream-vera
+  - libxml2
+  - sgml-base
+  - xml-core
+  - libx11-6
+  - libxdmcp6
+  - libx11-data
+  - libxau6
