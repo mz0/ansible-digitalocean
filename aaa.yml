@@ -10,7 +10,6 @@
     - set_fact: ansible_port=2222
     - include: tasks/trim.yml
     - debug: var=uninstall
-    - debug: var=ssh_back
 
 # handlers:
 #   - include: handlers/site.yml
