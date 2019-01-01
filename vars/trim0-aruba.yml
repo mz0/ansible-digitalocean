@@ -1,4 +1,9 @@
+old_keys:
+  # "/etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg"
+  # "/etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg"
+
 trim_list:
+  - acpi
   - aptitude
   - aptitude-common
   - apt-listchanges
@@ -167,6 +172,7 @@ trim_list:
   - libxml-sax-perl
   - libxrandr2
   - libxrender1
+  - linux-image-amd64
   - lrzsz
   - lsb-release
   - m4
