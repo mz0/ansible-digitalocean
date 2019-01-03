@@ -1,5 +1,13 @@
 ```
+$ pip3 install --user -r requirements.txt
+$ alias python=python3
+$ python -V
+Python 3.6.7
+
 $ time ansible-playbook launch-DO.yml
+
+ [WARNING]: Could not match supplied host pattern, ignoring: dohosts
+
 
 PLAY [provisioner] **************************************************************
 
@@ -13,7 +21,7 @@ TASK [digital_ocean_sshkey_facts] **********************************************
 ok: [provisioner]
 
 TASK [set_fact] *****************************************************************
-ok: [provisioner] => (item={u'public_key': u'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyQ5wJKkduGWq7Q1Ar46F+gc61pQiuy6YXKI623/lnz1xVV8y58NSGI5AYs1e5thygB72ZWgZO1w7tXVxyJ3jGS1c1vHAG8myqcu5ZZYdX6rzZ7+HXpcsLTDuqPs8VUhTzDf8kUGwaiMEsG0sHsy98jupxF1iTojBjEmA7rixnVM+EA94Z7KrHmAS9yOYa9P6P0KrnwK4tAz3GtrxyEOGGs9kXQ9B88kQHvQvTTMVG26zbln0Yt3jSqvBIo4nD6gWiKtCsN0Y/2bSrCdy33C/HKr4uHizgHumruDsbECYtga/k7VOQrr3+uc5t7MpXLUxNdGBNN4hnBSrt/DVSSwm/ mz0@nb13', u'id': 23550519, u'name': u'ansible', u'fingerprint': u'04:39:43:86:22:6b:e6:fa:c0:22:38:2d:b2:91:13:9c'})
+ok: [provisioner] => (item={'public_key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyQ5wJKkduGWq7Q1Ar46F+gc61pQiuy6YXKI623/lnz1xVV8y58NSGI5AYs1e5thygB72ZWgZO1w7tXVxyJ3jGS1c1vHAG8myqcu5ZZYdX6rzZ7+HXpcsLTDuqPs8VUhTzDf8kUGwaiMEsG0sHsy98jupxF1iTojBjEmA7rixnVM+EA94Z7KrHmAS9yOYa9P6P0KrnwK4tAz3GtrxyEOGGs9kXQ9B88kQHvQvTTMVG26zbln0Yt3jSqvBIo4nD6gWiKtCsN0Y/2bSrCdy33C/HKr4uHizgHumruDsbECYtga/k7VOQrr3+uc5t7MpXLUxNdGBNN4hnBSrt/DVSSwm/ mz0@nb13', 'id': 23550519, 'name': 'ansible', 'fingerprint': '04:39:43:86:22:6b:e6:fa:c0:22:38:2d:b2:91:13:9c'})
 
 TASK [Find or create Droplet, then register in-memory] **************************
 changed: [provisioner]
@@ -68,9 +76,9 @@ TASK [Confirm host connection works] *******************************************
 ok: [do1]
 
 TASK [Setup SSH Port 2222 ; no UseDNS, AcceptEnv.] ******************************
-changed: [do1] => (item={u'key': u'Port', u'value': 2222})
-changed: [do1] => (item={u'key': u'UseDNS', u'value': u'no'})
-changed: [do1] => (item={u'key': u'AcceptEnv', u'value': u''})
+changed: [do1] => (item={'key': 'Port', 'value': 2222})
+changed: [do1] => (item={'key': 'UseDNS', 'value': 'no'})
+changed: [do1] => (item={'key': 'AcceptEnv', 'value': ''})
 
 TASK [Restart sshd] *************************************************************
 ok: [do1]
@@ -112,14 +120,14 @@ TASK [Set up password-less sudo for admin users] *******************************
 changed: [do1]
 
 TASK [Strict SSH access] ********************************************************
-ok: [do1] => (item={u'key': u'PubkeyAuthentication', u'value': u'yes'})
-ok: [do1] => (item={u'key': u'ChallengeResponseAuthentication', u'value': u'no'})
-changed: [do1] => (item={u'key': u'PermitRootLogin', u'value': u'without-password'})
-ok: [do1] => (item={u'key': u'PasswordAuthentication', u'value': u'no'})
-changed: [do1] => (item={u'key': u'MaxAuthTries', u'value': u'2'})
-changed: [do1] => (item={u'key': u'LoginGraceTime', u'value': u'6'})
-changed: [do1] => (item={u'key': u'MaxSessions', u'value': u'5'})
-changed: [do1] => (item={u'key': u'MaxStartups', u'value': u'10:30:60'})
+ok: [do1] => (item={'key': 'PubkeyAuthentication', 'value': 'yes'})
+ok: [do1] => (item={'key': 'ChallengeResponseAuthentication', 'value': 'no'})
+changed: [do1] => (item={'key': 'PermitRootLogin', 'value': 'without-password'})
+ok: [do1] => (item={'key': 'PasswordAuthentication', 'value': 'no'})
+changed: [do1] => (item={'key': 'MaxAuthTries', 'value': '2'})
+changed: [do1] => (item={'key': 'LoginGraceTime', 'value': '6'})
+changed: [do1] => (item={'key': 'MaxSessions', 'value': '5'})
+changed: [do1] => (item={'key': 'MaxStartups', 'value': '10:30:60'})
 
 TASK [Create admin user] ********************************************************
 changed: [do1]
@@ -814,6 +822,9 @@ PLAY RECAP *********************************************************************
 do1                        : ok=33   changed=21   unreachable=0    failed=0
 provisioner                : ok=7    changed=1    unreachable=0    failed=0
 
+real	6m24,654s
+user	0m43,034s
+sys	0m12,386s
 
 $ time ansible-playbook destroy-DO.yml
 Name of server to destroy:
