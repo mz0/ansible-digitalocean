@@ -1,6 +1,10 @@
-old_keys:
-  # "/etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg"
-  # "/etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg"
+#install_for_sure:
+# - openssh-sftp-server
+# - openssh-server
+
+#leave_alone:
+# - python-apt        # used by Ansible ?
+# - python-apt-common # used by Ansible ?
 
 trim_list:
   - acpi

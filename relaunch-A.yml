@@ -59,7 +59,14 @@
     - include: tasks/trim.yml
     - debug: var=uninstall
     - include: tasks/add-srv.yml
-    - debug: var=emp_install
+
+    - name: Check if empty DBroot password works
+      shell: mysqladmin -u root --password='' status
+      changed_when: false
+      failed_when: false
+      register: empty_DBroot_password
+    - include: tasks/dbroot-password.yml
+      when: empty_DBroot_password.rc == 0
 
   handlers:
     - include: handlers/site.yml
