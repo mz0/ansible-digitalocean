@@ -1,0 +1,18 @@
+- hosts: lab
+  gather_facts: no
+  tasks:
+    - debug: var=hostvars[inventory_hostname].ansible_port
+    - set_fact: ansible_port=2222
+
+    - name: Check if empty root password works
+      shell: mysqladmin -u root --password='' status
+      changed_when: false
+      failed_when: false
+      register: empty_DBroot_password
+    - debug: var=empty_DBroot_password
+
+    - include: tasks/dbroot-password.yml
+      when: empty_DBroot_password.rc == 0
+
+# handlers:
+#   - include: handlers/site.yml

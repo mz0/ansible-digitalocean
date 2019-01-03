@@ -31,8 +31,11 @@ This Playbook will:
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
 - configure sudoers
+- trim packages (leave only needed ones)
+- add 3rd-party repos for LEMP stack (Nginx, PHP5.6-7.3, MariaDB 10.x)
+- install the .EMP parts
 
-See output sample: doc/do1-log.md
+See install and run example: doc/do1-log.md
 
 Note: your [API key](https://cloud.digitalocean.com/api_access) should be
 in the file referenced by `do_api_token` in `do1.yml`.

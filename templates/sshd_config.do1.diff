@@ -1,0 +1,5 @@
+UsePrivilegeSeparation yes
+RhostsRSAAuthentication no
+# Added by DigitalOcean build process
+ClientAliveInterval 120
+ClientAliveCountMax 2
