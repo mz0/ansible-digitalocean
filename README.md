@@ -7,8 +7,7 @@ Uniform cloud server environments
 Installation
 ------------
 
-* Install [Ansible 2.7](http://docs.ansible.com/ansible/intro_installation.html) 
- or newer (e.g. see [running development version](doc/run-ansible-2.8dev0.md)).
+* Install [Ansible 2.7.5](http://docs.ansible.com/ansible/intro_installation.html) or newer.
 
 * Check do1.yml/ar1.yml and change the variables to your need.
 

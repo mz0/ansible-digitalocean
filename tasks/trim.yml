@@ -1,22 +1,3 @@
-
-##### TODO consider resetting ansible_port in launch-/relaunch- playbooks ###
-- name: Check port 22 is open
-  wait_for:
-    port: 22
-    host: "{{ ansible_host }}"
-    connect_timeout: 30
-    timeout: 3
-  delegate_to: localhost
-  ignore_errors: yes
-  register: default_ssh
-
-- name: Use ansible_port=22 if open
-  set_fact: ansible_port=22      # if static inventory has the desired port we should reset that if we re-create VM
-  when: default_ssh is defined and
-        default_ssh.state is defined and
-        default_ssh.state == 'started'
-##### TODO consider resetting ansible_port in launch-/relaunch- playbooks ###
-
 - name: Purge unused packages
   become: yes
   apt:

@@ -1,38 +1,46 @@
-#install_for_sure:
-# - openssh-sftp-server
-# - openssh-server
-
-#leave_alone:
-# - python-apt        # used by Ansible ?
-# - python-apt-common # used by Ansible ?
-
 trim_list:
   - acpi
   - aptitude
   - aptitude-common
+  - aptitude-doc-en
   - apt-listchanges
+  - arping
   - at
   - bash-completion
   - bind9-host
+  - cloud-init
+  - cloud-initramfs-growroot
+  - cloud-utils
   - console-setup
+  - console-setup-linux
   - dbus
   - debconf-i18n
   - debian-faq
+  - dh-python
   - dictionaries-common
   - discover
+  - discover-data
+  - distro-info
+  - distro-info-data
   - dmidecode
   - dnsutils
   - doc-debian
   - docutils-common
+  - docutils-doc
   - eject
   - emacsen-common
-  - ethtool
-  - fail2ban
+  - euca2ools
+  - exim4
+  - exim4-base
+  - exim4-config
+  - exim4-daemon-light
   - firmware-linux-free
   - fontconfig
+  - fontconfig-config
   - fonts-dejavu-core
   - ftp
   - gcc-4.8-base
+  - gdisk
   - geoip-database
   - hicolor-icon-theme
   - host
@@ -44,9 +52,11 @@ trim_list:
   - install-info
   - irqbalance
   - isc-dhcp-client
+  - isc-dhcp-common
   - iso-codes
   - ispell
   - keyboard-configuration
+  - krb5-locales
   - laptop-detect
   - libalgorithm-c3-perl
   - libatk1.0-0
@@ -73,7 +83,6 @@ trim_list:
   - libdiscover2
   - libdns100
   - libdns-export100
-  - libdumbnet1
   - libencode-locale-perl
   - libevent-2.0-5
   - libfcgi-perl
@@ -89,6 +98,8 @@ trim_list:
   - libgpgme11
   - libgpm2
   - libgraphite2-3
+  - libgtk2.0-0
+  - libgtk2.0-bin
   - libgtk2.0-common
   - libharfbuzz0b
   - libhtml-format-perl
@@ -116,11 +127,11 @@ trim_list:
   - libjbig0
   - libjpeg62-turbo
   - liblcms2-2
-  - liblockfile1
   - liblwp-mediatypes-perl
   - liblwp-protocol-https-perl
   - liblwres90
   - libmailtools-perl
+  - libmpdec2
   - libmro-compat-perl
   - libnet1
   - libnet-http-perl
@@ -139,7 +150,9 @@ trim_list:
   - libpcap0.8
   - libpci3
   - libpixman-1-0
-  - libsensors4
+  - libpython3.4-minimal
+  - libpython3.4-stdlib
+  - libpython3-stdlib
   - libsoftware-license-perl
   - libsub-exporter-perl
   - libsub-install-perl
@@ -159,12 +172,18 @@ trim_list:
   - libwebpmux1
   - libwww-perl
   - libwww-robotrules-perl
+  - libx11-6
+  - libx11-data
   - libxapian22
+  - libxau6
+  - libxcb1
   - libxcb-render0
   - libxcb-shm0
   - libxcomposite1
   - libxcursor1
   - libxdamage1
+  - libxdmcp6
+  - libxext6
   - libxfixes3
   - libxi6
   - libxinerama1
@@ -174,10 +193,13 @@ trim_list:
   - libxml-sax-base-perl
   - libxml-sax-expat-perl
   - libxml-sax-perl
+  - libxmuu1
   - libxrandr2
   - libxrender1
+  - libxslt1.1
+  - libyaml-0-2
+  - linux-image-3.16.0-4-amd64
   - linux-image-amd64
-  - lrzsz
   - lsb-release
   - m4
   - man-db
@@ -185,62 +207,73 @@ trim_list:
   - mutt
   - nano
   - nfs-common
-  - open-vm-tools
   - os-prober
   - parted
   - pciutils
   - pinentry-gtk2
   - procmail
+  - python3
+  - python3.4
+  - python3.4-minimal
+  - python3-apt
+  - python3-minimal
+  - python-boto
   - python-cffi
   - python-chardet
+  - python-cheetah
+  - python-configobj
+  - python-crypto
   - python-cryptography
   - python-debian
   - python-debianbts
   - python-defusedxml
+  - python-distro-info
   - python-docutils
+  - python-ecdsa
+  - python-jsonpatch
+  - python-json-pointer
+  - python-lxml
   - python-ndg-httpsclient
+  - python-oauth
   - python-openssl
+  - python-paramiko
   - python-pil
   - python-pkg-resources
   - python-ply
+  - python-prettytable
   - python-pyasn1
   - python-pycparser
   - python-pygments
-  - python-pyinotify
   - python-reportbug
+  - python-requestbuilder
   - python-requests
   - python-roman
+  - python-serial
+  - python-setuptools
   - python-six
   - python-soappy
+  - python-software-properties
   - python-urllib3
   - python-wstools
+  - python-yaml
   - rename
   - reportbug
+  - resolvconf
   - rpcbind
   - shared-mime-info
-  - sysstat
   - task-english
   - tasksel
   - tasksel-data
+  - task-ssh-server
   - tcpd
   - texinfo
+  - unattended-upgrades
   - util-linux-locales
   - vim
   - vim-runtime
   - w3m
   - wamerican
   - wget
+  - xauth
   - xdg-user-dirs
   - xkb-data
-  - zerofree
-  - krb5-locales
-  - aptitude-doc-en
-  - fontconfig-config
-  - ttf-bitstream-vera
-  - libxml2
-  - sgml-base
-  - xml-core
-  - libx11-6
-  - libxdmcp6
-  - libx11-data
-  - libxau6

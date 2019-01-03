@@ -42,8 +42,8 @@
   vars_files:
     - vars/main.yml
     - vars/ar1.yml # TODO split in two, strip Aruba details.
-    # vars/trim-aruba.yml
     - vars/trim0-aruba.yml
+    - vars/emp.yml
 
   tasks:
     - include: tasks/ssh-rootkey.yml
@@ -57,7 +57,16 @@
     - include: tasks/security.yml
     - include: tasks/users.yml
     - include: tasks/trim.yml
-    - debug: var=uninstall
+    - debug: var=uninstall.stdout_lines
+    - include: tasks/add-srv.yml
+
+    - name: Check if empty DBroot password works
+      shell: mysqladmin -u root --password='' status
+      changed_when: false
+      failed_when: false
+      register: empty_DBroot_password
+    - include: tasks/dbroot-password.yml
+      when: empty_DBroot_password.rc == 0
 
   handlers:
     - include: handlers/site.yml
