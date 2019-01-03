@@ -9,14 +9,11 @@
       changed_when: no
     - set_fact: kfprint="{{ cmd_res.stdout }}"
 
-    - digital_ocean_sshkey_facts:
-        oauth_token: "{{ do_api_token }}"
+    - digital_ocean_sshkey_facts: oauth_token={{ do_api_token }}
       register: do_keys
 
-    - set_fact:
-        pubkeyid: "{{ item.id }}"
-        pubkeyn:  "{{ item.name }}"
-      with_items: "{{ ssh_keys|json_query(pk) }}"
+    - set_fact: pubkeyid={{ item.id }} pubkeyn={{ item.name }}
+      loop: "{{ ssh_keys|json_query(pk) }}"
       vars:
         pk: "[?fingerprint=='{{ kfprint }}']"
 
@@ -53,6 +50,8 @@
   vars_files:
     - vars/main.yml
     - vars/do1.yml  # TODO: split in two, leave only host-specifics, strip DO details!
+    - vars/trim0-do.yml
+    - vars/emp.yml
 
   tasks:
     - include: tasks/sysvinit.yml
@@ -61,6 +60,9 @@
     - include: tasks/software.yml
     - include: tasks/security.yml
     - include: tasks/users.yml
+    - include: tasks/trim.yml
+    - debug: var=uninstall.stdout_lines
+    - include: tasks/add-srv.yml
 
   handlers:
     - include: handlers/site.yml

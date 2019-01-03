@@ -57,7 +57,7 @@
     - include: tasks/security.yml
     - include: tasks/users.yml
     - include: tasks/trim.yml
-    - debug: var=uninstall
+    - debug: var=uninstall.stdout_lines
     - include: tasks/add-srv.yml
 
     - name: Check if empty DBroot password works
