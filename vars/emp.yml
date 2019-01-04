@@ -7,6 +7,7 @@ repo_keys:
   - 7E3F070089DF5277 # www.dotdeb.org/dotdeb.gpg
   - AC0E47584A7A714D # packages.sury.org/php/apt.gpg
   - CBCB082A1BB943DB # package-signing-key@mariadb.org
+  # F1656F24C74CD1D8 # MariaDB for Stretch, U16.04 and up
 emp_pkgs:
   - nginx-light
   - php5.6-fpm

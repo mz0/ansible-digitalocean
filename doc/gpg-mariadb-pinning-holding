@@ -1,0 +1,68 @@
+https://mariadb.com/kb/en/library/differences-in-mariadb-in-debian-and-ubuntu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+character_set_server, collation_server
+plugin-load-add auth_socket.so - allow passwordless login?
+
+https://mariadb.com/kb/en/library/moving-from-mysql-to-mariadb-in-debian-9
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Secure passwordless root accounts only on new installs
+Unlike the old MySQL packages in Debian, MariaDB 10.0 onwards in Debian uses unix socket authentication on new installs to avoid root password management issues and thus be more secure and easier to use with provision systems of the cloud age.
+
+https://mariadb.com/kb/en/library/installing-mariadb-deb-files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+CBCB082A1BB943DB
+http://ftp.hosteurope.de/mirror/mariadb.org/PublicKey
+http://nyc2.mirrors.digitalocean.com/mariadb/PublicKey
+http://fra1.mirrors.digitalocean.com/mariadb/PublicKey
+http://lon1.mirrors.digitalocean.com/mariadb/PublicKey
+
+F1656F24C74CD1D8
+On Debian 9 "stretch" and later, the dirmngr package needs to be installed before importing the key:
+  sudo apt install dirmngr
+Ubuntu 16.04 "Xenial", Debian 9 "stretch" and Debian Sid packages are signed with SHA2 key id 0xF1656F24C74CD1D8 since about 2016-07-04 (jira.mariadb.org/browse/MDEV-9781).
+
+
+Version Mismatch Between MariaDB and Ubuntu/Debian Repositories
+---------------------------------------------------------------
+As mentioned here (and in MDEV-4080 and MDEV-3882) sometimes APT will refuse to install MariaDB.
+Or, if MariaDB is already installed, suggest the removal of MariaDB to apply an upgrade to the mysql-common or libmysqlclient packages.
+
+There are three primary ways of fixing this issue:
+
+1 Specify specific version to install ('apt-get dist-upgrade' still breaks it)
+2 Pin MariaDB repository
+3 Hold packages
+
+Pinning MariaDB Repository
+==========================
+Pin the MariaDB repository so its packages have higher priority then the ones from the system repositories.
+Create a file with the '.pref' extension in '/etc/apt/preferences.d/' with the following contents:
+
+Package: *
+Pin: origin <mirror-domain>
+Pin-Priority: 1000
+
+Replace '<mirror-domain>' with the domain name of the MariaDB mirror you use. For example 'ftp.osuosl.org'
+
+Holding Packages
+================
+To prevent 'apt-get dist-upgrade' from removing MariaDB compatible libmysqlclient and mysql-common
+you can hold them: (as root)
+
+echo libmysqlclient18 hold | dpkg --set-selections
+echo mysql-common hold | dpkg --set-selections
+
+When you want e.g. upgrade MariaDB and are ready to remove the holds:
+
+echo libmysqlclient18 install | dpkg --set-selections
+echo mysql-common install | dpkg --set-selections
+
+
+Specifying Specific Versions to Install
+=======================================
+A way to fix this is to specify the exact version of the two packages that you want to install.
+To do this, first determine the full version numbers of the affected packages:
+
+apt-cache show mysql-common     | grep Version
+apt-cache show libmysqlclient18 | grep Version
