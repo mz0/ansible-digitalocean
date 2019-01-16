@@ -1,14 +1,12 @@
+#https://docs.ansible.com/ansible/latest/modules/acme_account_facts_module.html
+
 # ln -s i\
 #   ~/dehydrated/accounts/aHR0cHM6Ly9hY21lLXYwMi5hcGkubGV0c2VuY3J5cHQub3JnL2RpcmVjdG9yeQo/account_key.pem \
 #   ~/.ssh/le-33935398.key
+
 - hosts: localhost
   gather_facts: no
   vars:
-    acme_account_key: "{{lookup('file', '~/.ssh/le-33935398.key')}}"
-    acme_account_key_src: /home/mz0/dehydrated/accounts/aHR0cHM6Ly9hY21lLXYwMi5hcGkubGV0c2VuY3J5cHQub3JnL2RpcmVjdG9yeQo/account_key.pem
+    acme_account_key_src: '~/.ssh/le-33935398.key'
   tasks:
-    - include: tasks/acme-facts-k.yml
-    - name: Drop key before running next test
-      set_fact:
-            acme_account_key: ''
     - include: tasks/acme-facts-kfile.yml
