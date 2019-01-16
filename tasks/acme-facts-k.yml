@@ -1,0 +1,14 @@
+- name: Check whether the account exists and is accessible with the given account key
+  acme_account_facts:
+    account_key_content: "{{ acme_account_key }}"
+    acme_version: 2
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+  register: account_data
+- name: Verify that account exists
+  assert:
+    that:
+      - account_data.exists
+- name: Print account URI
+  debug: var=account_data.account_uri
+- name: Print account contacts
+  debug: var=account_data.account.contact
