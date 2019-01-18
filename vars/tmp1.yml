@@ -1,0 +1,114 @@
+acme_data: {
+        "account_uri": "https://acme-v02.api.letsencrypt.org/acme/acct/33935398",
+        "authorizations": {
+            "ix.d35.ru": {
+                "challenges": [
+                    {
+                        "status": "pending",
+                        "token": "pbPSlV6atBgWSoUeJatv_bgSMXFLPGKUwroS8kVoYI4",
+                        "type": "http-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/p4y_wbQrbXFZ2eH100BQ-EGW4h84ukF77fQaYB-L0r4/11591828753"
+                    },
+                    {
+                        "status": "pending",
+                        "token": "rjsy9Ce-dZ6eUW9v_GiDFLplFB59niBgCTyuW9FQdug",
+                        "type": "dns-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/p4y_wbQrbXFZ2eH100BQ-EGW4h84ukF77fQaYB-L0r4/11591828754"
+                    },
+                    {
+                        "status": "pending",
+                        "token": "0X5Qu8krNGLSkIT3lF8KmlxEdSl_7SajdYY_FaMQbfQ",
+                        "type": "tls-alpn-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/p4y_wbQrbXFZ2eH100BQ-EGW4h84ukF77fQaYB-L0r4/11591828755"
+                    }
+                ],
+                "expires": "2019-01-25T08:54:50Z",
+                "identifier": {
+                    "type": "dns",
+                    "value": "ix.d35.ru"
+                },
+                "status": "pending",
+                "uri": "https://acme-v02.api.letsencrypt.org/acme/authz/p4y_wbQrbXFZ2eH100BQ-EGW4h84ukF77fQaYB-L0r4"
+            },
+            "www.d35.ru": {
+                "challenges": [
+                    {
+                        "status": "pending",
+                        "token": "XDmSPn6BzrMSyhoL3NEHgY3l4SIXcWr8cU4RbpAIyK0",
+                        "type": "tls-alpn-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/f1f7J4KRRrWVjcqUW-FE0JASbFM2AOaIMR0k7vnpoe0/11591828756"
+                    },
+                    {
+                        "status": "pending",
+                        "token": "QNS2bufUa1WmPGDc7PbhC5vivsKh2liw4_lIeGFoFZA",
+                        "type": "http-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/f1f7J4KRRrWVjcqUW-FE0JASbFM2AOaIMR0k7vnpoe0/11591828757"
+                    },
+                    {
+                        "status": "pending",
+                        "token": "u2eY_XOYoAOEu38esFLt60G3CbVhxpROjYeCxGWwWT8",
+                        "type": "tls-sni-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/f1f7J4KRRrWVjcqUW-FE0JASbFM2AOaIMR0k7vnpoe0/11591828758"
+                    },
+                    {
+                        "status": "pending",
+                        "token": "AaLefGjlTj1Ax8H9iNa3N-aVBqmgPGZuLIG9TrSGb2U",
+                        "type": "dns-01",
+                        "url": "https://acme-v02.api.letsencrypt.org/acme/challenge/f1f7J4KRRrWVjcqUW-FE0JASbFM2AOaIMR0k7vnpoe0/11591828759"
+                    }
+                ],
+                "expires": "2019-01-25T08:54:50Z",
+                "identifier": {
+                    "type": "dns",
+                    "value": "www.d35.ru"
+                },
+                "status": "pending",
+                "uri": "https://acme-v02.api.letsencrypt.org/acme/authz/f1f7J4KRRrWVjcqUW-FE0JASbFM2AOaIMR0k7vnpoe0"
+            }
+        },
+        "cert_days": -1,
+        "challenge_data": {
+            "ix.d35.ru": {
+                "dns-01": {
+                    "record": "_acme-challenge.ix.d35.ru",
+                    "resource": "_acme-challenge",
+                    "resource_value": "3sIi3vxT2sOo0pOLL7Dka5myE5Nds6-YQs4KKFzSGac"
+                },
+                "http-01": {
+                    "resource": ".well-known/acme-challenge/pbPSlV6atBgWSoUeJatv_bgSMXFLPGKUwroS8kVoYI4",
+                    "resource_value": "pbPSlV6atBgWSoUeJatv_bgSMXFLPGKUwroS8kVoYI4.su63bJ_vTIf2DOQU5eT8CrieFUl1G34A4_7RUFkI99E"
+                },
+                "tls-alpn-01": {
+                    "resource": "ix.d35.ru",
+                    "resource_value": "H8P0YiP1SUTgpUM6E+licSOR15Z0nQszib8VMmxp264="
+                }
+            },
+            "www.d35.ru": {
+                "dns-01": {
+                    "record": "_acme-challenge.www.d35.ru",
+                    "resource": "_acme-challenge",
+                    "resource_value": "2c7dQChxnhXZgNuSyNAYtaUAEEf6bxZ_hUXodAye5xY"
+                },
+                "http-01": {
+                    "resource": ".well-known/acme-challenge/QNS2bufUa1WmPGDc7PbhC5vivsKh2liw4_lIeGFoFZA",
+                    "resource_value": "QNS2bufUa1WmPGDc7PbhC5vivsKh2liw4_lIeGFoFZA.su63bJ_vTIf2DOQU5eT8CrieFUl1G34A4_7RUFkI99E"
+                },
+                "tls-alpn-01": {
+                    "resource": "www.d35.ru",
+                    "resource_value": "MFiA8hsdu+2c3e9kJ9ksW3XwCm1eBtK7FVxkUTsXopo="
+                }
+            }
+        },
+        "challenge_data_dns": {
+            "_acme-challenge.ix.d35.ru": [
+                "3sIi3vxT2sOo0pOLL7Dka5myE5Nds6-YQs4KKFzSGac"
+            ],
+            "_acme-challenge.www.d35.ru": [
+                "2c7dQChxnhXZgNuSyNAYtaUAEEf6bxZ_hUXodAye5xY"
+            ]
+        },
+        "changed": true,
+        "failed": false,
+        "finalize_uri": "https://acme-v02.api.letsencrypt.org/acme/finalize/33935398/276551487",
+        "order_uri": "https://acme-v02.api.letsencrypt.org/acme/order/33935398/276551487"
+    }

@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    vars/tmp1.yml
+  tasks:
+    - debug: msg="{{ item.value['dns-01'].resource_value }}"
+      with_dict: "{{acme_data.challenge_data}}"
+
+    - name: Clean-up challenge response
+      cloudflare_dns:
+        zone: d35.ru
+        account_api_token: "{{ lookup('file', '~/.ssh/cloudflare/d35z') }}"
+        account_email: d35z@mail.ru
+        state: absent
+        record: "{{ item.value['dns-01'].record }}"
+      with_dict: "{{acme_data.challenge_data}}"
