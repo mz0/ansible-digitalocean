@@ -1,0 +1,39 @@
+https://galaxy.ansible.com/docs/using/installing.html
+-----------------------------------------------------
+
+https://github.com/geerlingguy/ansible-role-mysql
+
+Name		Latest commit message					Commit time
+----		---------------------					-----------
+defaults/	Switch tests to use Molecule.				4 months ago
+handlers/	Fixes #33: Add sleep=5 to MySQL restart task.		4 years ago
+meta/		Switch tests to use Molecule.				4 months ago
+molecule/default/ Fix error introduced in previous commit.		a month ago
+tasks/		Fix some things that broke due to lint issue fixes.	a month ago
+templates/	Make the role compatible with MySQL 8			5 months ago
+vars/		Fixes #246: Use adm group for log files on Debian/Ubuntu. 11 months ago
+.ansible-lint	Fixes ansible-lint rule I strongly disagree with - 602.	8 days ago
+.gitignore	Switch tests to use Molecule.				4 months ago
+.travis.yml	Remove debian9 test for now.				3 months ago
+LICENSE		Add a LICENSE file for MIT license. [ci skip]		2 years ago
+README.md	Merge pull request #281 from Maelstromeous/patch-2	2 months ago
+
+$ ansible-galaxy install geerlingguy.mysql
+- downloading role 'mysql', owned by geerlingguy
+- downloading role from https://github.com/geerlingguy/ansible-role-mysql/archive/2.9.4.tar.gz
+- extracting geerlingguy.mysql to /home/mz0/.ansible/roles/geerlingguy.mysql
+- geerlingguy.mysql (2.9.4) was installed successfully
+mz0@nb13:~/do3$ ls -la ~/.ansible/
+cp/    roles/ tmp/   
+mz0@nb13:~/do3$ ls -lA ~/.ansible/roles/geerlingguy.mysql/
+defaults/main.yml
+handlers/main.yml
+meta/
+molecule/
+tasks/
+templates/
+vars/
+.gitignore    28 Oct  8 20:07 
+.travis.yml  640 Oct  8 20:07 
+LICENSE     1080 Oct  8 20:07 
+README.md   8525 Oct  8 20:07 

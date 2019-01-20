@@ -1,35 +1,15 @@
-# /etc/ssh/sshd_config 6.7p1-5+deb8u7
-# See sshd_config(5) for details
-
+# /etc/ssh/sshd_config 6.7p1
 Port {{ ssh_port }}
-Protocol 2
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
-KeyRegenerationInterval 3600
-ServerKeyBits 1024
-SyslogFacility AUTH
-LogLevel INFO
 LoginGraceTime 3
 PermitRootLogin without-password
-StrictModes yes
-RSAAuthentication no
-PubkeyAuthentication yes
-IgnoreRhosts yes
-HostbasedAuthentication no
-PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 PasswordAuthentication no
-X11Forwarding yes
-X11DisplayOffset 10
-PrintMotd no
-PrintLastLog yes
-TCPKeepAlive yes
 MaxStartups 10:30:60
-#AcceptEnv LANG LC*
 Subsystem sftp /usr/lib/openssh/sftp-server
-UsePAM yes
 UseDNS no
 MaxAuthTries 2
 MaxSessions 5

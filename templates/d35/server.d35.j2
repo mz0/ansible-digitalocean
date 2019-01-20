@@ -1,0 +1,35 @@
+log_format compact3 '"$request" $status "$http_referer"';
+
+server {
+ listen 80;
+ listen [::]:80;
+ listen [::]:443 ssl;
+ listen 443 ssl;
+ server_name    {{ wsN }}.d35.ru;
+ root           /var/www/d35x;
+ access_log     /var/www/d35acces.log compact3 buffer=8k flush=3s;
+ error_log      /var/www/d35error.log;
+ include snippets/fastcgi-php.conf;
+ssl_certificate      /etc/ssl/certs/d35.x.pem;
+ssl_certificate_key  /etc/ssl/private/d35.x.pem;
+ssl_session_cache    shared:SSL:1m;
+ssl_session_timeout  5m;
+ssl_ciphers  HIGH:!aNULL:!MD5;
+ssl_prefer_server_ciphers  on;
+ location ~ \.htaccess$ { deny all; }
+ location ~ \.htpasswd$ { deny all; }
+ location / { try_files $uri /index.php?$args; }
+ location ~ /adminka/ {
+   return 404;
+  }
+ location ~ \.php$ {
+   try_files $uri =404;
+   fastcgi_pass unix:/run/php-fpmD35.sock;
+  }
+}
+#server {
+#listen 80;
+#listen [::]:80;
+# server_name    x.d35.ru;
+# return 301 https://x.d35.ru$request_uri;
+#}

@@ -1,0 +1,7 @@
+- name: Check project-specific php-fpm pool
+  shell: getent passwd {{phpu}} &&  ps --no-headers -o args -p$(pgrep -x php-fpm5.6 -u{{phpu}})
+  changed_when: false
+  failed_when: false
+  register: php_fpm_process_found
+- include: tasks/php-fpm-pool.yml
+# when: php_fpm_process_found.rc != 0

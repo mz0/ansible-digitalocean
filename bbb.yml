@@ -1,0 +1,13 @@
+- hosts: lab
+  gather_facts: no
+  vars:
+    ro_www: 'd35ro'
+    wo_www: 'd35nsync:x:3501:3501::/var/www/d35x/news:/usr/bin/rssh' # TODO later
+  tasks:
+    - set_fact: ansible_port=2222
+
+    - name: Create www-data like user with home outside /var/www
+      become: yes
+      user: name={{ro_www}} state=present shell=/usr/sbin/nologin createhome=yes home=/home/d35.secrets password='*' update_password=always skeleton=/dev/zero
+    - set_fact: phpu={{ro_www}}
+    - include: tasks/php-fpm.yml

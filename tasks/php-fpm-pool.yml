@@ -1,0 +1,16 @@
+- name: ensure no default php-fpm pool
+  become: yes
+  file: path=/etc/php/5.6/fpm/pool.d/www.conf state=absent
+- name: Copy hardcoded php-fpm5.6 config files (TODO templates)
+  become: yes
+  copy: dest="/etc/{{ item }}" src="{{ item }}"
+  loop:
+    - php/5.6/fpm/php-fpm.conf
+    - php/5.6/fpm/php.ini
+    - php/5.6/fpm/pool.d/d35.conf
+  register: fpm_config
+- name: restart php-fpm when needed
+  become: yes
+  service: name=php5.6-fpm state=restarted
+  when: fpm_config.changed
+  changed_when: false
