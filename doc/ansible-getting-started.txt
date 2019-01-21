@@ -1,0 +1,18 @@
+/shr/book/devops (2018-03-10)
+
+Ansible-Up.and.Running-2017.pdf
+======================
+p.238 Create/delete an ubuntu instance on Amazon EC2
+$ ansible localhost -m ec2 -a 'instance_id=i-01176c6682556a360 state=absent'
+
+p.280 debug: stdout_callback = debug
+
+Ansible-for-devops-2015.pdf
+======================  
+p.117 dynamic inventory with DigitalOcean
+https://github.com/geerlingguy/ansible-for-devops/blob/master/dynamic-inventory/digitalocean/digital_ocean.py
+
+p.118 Creating droplet
+https://github.com/geerlingguy/ansible-for-devops/blob/master/dynamic-inventory/digitalocean/provision.yml
+
+Started 2018-09-08 13:52
