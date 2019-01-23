@@ -1,0 +1,22 @@
+$ python2 -m virtualenv pynv
+$ source pynv/bin/activate
+  -- either --
+(pynv) $ pip install 'ansible<2.6'
+  -- OR --
+(pynv) $ pip install ansible==
+(pynv) $ pip install ansible==2.5.14
+  -- check --
+(pynv) $ ansible --version
+ansible 2.5.14
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'~/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = ./pynv/local/lib/python2.7/site-packages/ansible
+  executable location = ./pynv/bin/ansible
+  python version = 2.7
+(pynv) $ deactivate
+
+$ ls -l \
+ pynv/lib/python2.7/site-packages/ansible/module_utils/digital_ocean.py \
+ /usr/lib/python2.7/dist-packages/ansible/module_utils/digital_ocean.py
+-rw-r--r-- 1 mz0  mz0  3824 pynv/lib/python2.7/site-packages/ansible/module_utils/digital_ocean.py
+-rw-r--r-- 1 root root 5769 /usr/lib/python2.7/dist-packages/ansible/module_utils/digital_ocean.py
