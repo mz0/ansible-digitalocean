@@ -1,0 +1,16 @@
+- hosts: provisioner
+  gather_facts: no
+  vars_files:
+    group_vars/arubacloud.yml
+  vars:
+  # aruba_account:
+  # aruba_password:
+  # wait_minutes: 20
+    vm_provider: arubacloudsmart
+    dc_i: 1
+    vps_name: La
+  roles:
+    - ubse      # register:  vm
+
+  tasks:
+    - debug: var=vm

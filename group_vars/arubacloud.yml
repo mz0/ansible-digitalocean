@@ -1,0 +1,9 @@
+# Arubacloud account
+aruba_account:  "{{ lookup('ini', 'user   section='+acct+'  '+secrets) }}"
+aruba_password: "{{ lookup('ini', 'passwd section='+acct+'  '+secrets) }}"
+secrets: file=~/.ssh/aruba/ansible.ini
+acct: acct0
+
+# Arubacloud Smart server timeouts
+wait_minutes: 20 # max wait for VM re-init, usually a bit over 3 minutes
+wait_ssh:      5 # max wait for SSH to come up
