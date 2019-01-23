@@ -1,0 +1,16 @@
+srv:
+ - { "MAC": "00:50:56:9e:cb:f6", "busy": false, "created": "2018-04-04T11:46:10",
+   "dc": 1, "id": 292659, "ip4": "212.237.9.140",
+   "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001", "isON": true, "jobs": [],
+   "name": "Xa", "recharge": "2019-01-29T11:00:00", "size": "S",
+   "templateId": 1723, "tplateName": "debian8_x64_1_0" }
+ - { "MAC": "00:50:56:9e:cb:f6", "busy": false, "created": "2018-04-04T11:46:10",
+   "dc": 1, "id": 292659, "ip4": "212.237.9.140",
+   "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001", "isON": true, "jobs": [],
+   "name": "La", "recharge": "2019-01-29T11:00:00", "size": "S",
+   "templateId": 1723, "tplateName": "debian8_x64_1_0" }
+ - { "MAC": "00:50:56:9e:cb:f6", "busy": false, "created": "2018-04-04T11:46:10",
+   "dc": 1, "id": 292659, "ip4": "212.237.9.140",
+   "ip6": "2a00:6d40:0060:928c:0000:0000:0000:0001", "isON": true, "jobs": [],
+   "name": "Ra", "recharge": "2019-01-29T11:00:00", "size": "S",
+   "templateId": 1723, "tplateName": "debian8_x64_1_0" }
