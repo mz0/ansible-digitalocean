@@ -8,5 +8,5 @@
   # - set_fact: srvl="{{ srv | map(attribute='name') | list }}"
   # - debug: var=srvl
     - set_fact: arubaserversmart_found=True
-      when: goodname in srv | map(attribute='name') | list 
+      when: goodname in srv | map(attribute='name') | list
     - debug: var=arubaserversmart_found
