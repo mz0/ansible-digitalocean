@@ -7,7 +7,7 @@ Uniform cloud server environments
 Installation
 ------------
 
-* Install [Ansible 2.7.5](http://docs.ansible.com/ansible/intro_installation.html) or newer.
+* Install Ansible 2.7.5 or newer (e.g. `pip install --user -r requirements.txt`).
 
 * Check do1.yml/ar1.yml and change the variables to your need.
 
@@ -31,9 +31,9 @@ This Playbook will:
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
 - configure sudoers
-- trim packages (leave only needed ones)
+- trim packages (leave only the needed ones)
 - add 3rd-party repos for LEMP stack (Nginx, PHP5.6-7.3, MariaDB 10.x)
-- install the .EMP parts
+- install the EMP parts (nginx, mysqld, php-fpm)
 
 See install and run example: doc/do1-log.md
 
