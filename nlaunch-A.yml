@@ -12,7 +12,7 @@
     vm_name: La
     state: present
   roles:
-    - ubse  # register: vm (pristine), vm0 (present)
+    - exactpro.um  # register: vm0 (pristine), vm (present)
 
   tasks:
     - debug: var=vm0
