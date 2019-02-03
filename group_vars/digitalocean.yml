@@ -1,0 +1,4 @@
+do_api_token: "{{ lookup('file', '~/.ssh/do/my.apikey') }}"
+# root_ssh_pk: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+# wait_minutes: 4  # max wait for VM init, usually it's under 2 minutes
+# wait_ssh: 25  # max wait for SSH to come up

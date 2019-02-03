@@ -6,11 +6,16 @@
   # aruba_account:
   # aruba_password:
   # wait_minutes: 20
+  # wait_ssh:      5
     vm_provider: arubacloudsmart
-    dc_i: 1
-    vps_name: La
+    dc: 1
+    vm_name: La
+    state: present
   roles:
-    - ubse      # register:  vm
+    - ubse  # register: vm (pristine), vm0 (present)
 
   tasks:
+    - debug: var=vm0
+      when: vm0 is not skipped
     - debug: var=vm
+      when: vm is not skipped
