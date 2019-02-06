@@ -1,0 +1,1 @@
+find . -name "*.yml" -type f -exec python3 -m yamllint -c ~/do2/test/sanity/yamllint/config/default.yml {} \;
