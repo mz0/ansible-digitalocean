@@ -12,10 +12,7 @@
     vm_name: La
     state: present
   roles:
-    - exactpro.um  # register: vm0 (pristine), vm (present)
+    - um  # set_fact: um
 
   tasks:
-    - debug: var=vm0
-      when: vm0 is not skipped
-    - debug: var=vm
-      when: vm is not skipped
+    - debug: msg="Server '{{vm_name}}' {{um.ip4}} {{um.ip6 | default('-')}}"

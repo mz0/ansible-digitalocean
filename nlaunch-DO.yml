@@ -17,10 +17,8 @@
     # ssh_set_port: 2222  # role default: 2222
 
   roles:
-    - exactpro.um  # register: vm0 (pristine), vm (present)
+    - um  # set_fact: um
 
   tasks:
-    - debug: msg="Droplet {{vm0.data.droplet.name}} {{vm0.data.ip_address}} {{vm0.data.ipv6_address | default('-')}}"
-      when: vm0 is not skipped
-    - debug: msg="Droplet {{vm.data.droplet.name}} {{vm.data.ip_address}} {{vm.data.ipv6_address | default('-')}}"
-      when: vm is not skipped
+    - debug: var=um
+    - debug: msg="Droplet {{um.droplet.name}} {{um.ip4}} {{um.ip6 | default('-')}}"
