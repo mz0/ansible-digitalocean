@@ -4,7 +4,7 @@
     - vars/do1.yml
   tasks:
     - name: Gather facts about SSH key (fingerprint look-up)
-      shell: "echo {{ root_ssh_pk }} | awk '{print $2}' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
+      shell: "echo {{ root_ssh_pk }} | cut -f2 -d' ' | base64 -d | md5sum -b | sed 's/../&:/g; s/: .*$//'"
       register: cmd_res
       changed_when: no
     - set_fact: kfprint="{{ cmd_res.stdout }}"
