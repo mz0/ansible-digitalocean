@@ -1,32 +1,25 @@
 Uniform cloud server environments
 =======================
 
-![launch.yml playbook starts](/doc/do1-start.png?raw=true)
-![launch.yml playbook finishes](/doc/do1-finish.png?raw=true)
+This is unfinished monolithik playbook transformation to a role-based one. Not much is working now!
 
 Installation
 ------------
 
-* Install [Ansible 2.7.5](http://docs.ansible.com/ansible/intro_installation.html) or newer.
+* Install Ansible 2.7.8 or newer (e.g. `pip install --user -r requirements.txt`).
 
 * Check do1.yml/ar1.yml and change the variables to your need.
+
+* Install `sshpass` for ArubaCloud (in Ubuntu enable `universe` repo & `apt install sshpass`).
 
 Playbooks
 =========
 
-launch-DO.yml / destroy-DO.yml
-----------
+This Playbook should:
 
-Launch / destroy a Debian 8.11 x64 droplet on Digital Ocean.
-
-```
-$ ansible-playbook launch-DO.yml
-```
-
-This Playbook will:
-
-- replace systemd with sysvinit
-- change SSH port 22 -> 2222 (set in do1.yml & hosts.ini)
+- create/rebuild a VM (droplet in DO parlance), currently only Debian 8 x64 is the target.
+- replace systemd with sysvinit (Debian supports it, but not Ubuntu/Fedora)
+- change SSH port 22 -> 2222 (to lower script-kiddies generated noise)
 - configure swap file
 - install openntpd
 - configure sshd (PasswordAuthentication=no etc.)
@@ -35,40 +28,27 @@ This Playbook will:
 - add 3rd-party repos for LEMP stack (Nginx, PHP5.6-7.3, MariaDB 10.x)
 - install the .EMP parts
 
-See install and run example: doc/do1-log.md
 
-Note: your [API key](https://cloud.digitalocean.com/api_access) should be
-in the file referenced by `do_api_token` in `do1.yml`.
-
-relaunch-A.yml / listsrv-A.yml
+DigitalOcean users, please note:
 ----------
 
-Re-launch a Debian 8.11 x64 "Smart" VM on
-[Aruba Cloud](https://www.arubacloud.com/vps/virtual-private-server-range.aspx).
-Configuration is very much alike the one above.
+* your [API key](https://cloud.digitalocean.com/api_access) should be
+in the file referenced by `do_api_token` in `do1.yml`.
 
-Note:
+* register SSH key in DO (link TBD).
 
-* "Smart" VMs are billed monthly - you do not want them killed and re-created
-without second thought, and if you pay for them 1Euro/mo you likely don't want them deleted at all ;)
+ArubaCloud users, please note:
+----------
+
+* This palybook (role) works only with ["Smart" VMs](https://www.arubacloud.com/vps/virtual-private-server-range.aspx). They are billed monthly - you
+do not want them killed and re-created without second thought, and if you pay for current one 1Euro/mo but the same new one will cost 2.79 likely
+you don't want them deleted at all.
 
 * put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
 
 * `listsrv-A.yml` lets you check ArubaCloud server status, queued task and its progress.
 
-* "Smart server" has Swap space pre-allocated as LVMs LV. We [reclaim this space](tasks/reclaim-swrsvd.yml)
+* "Smart server" has Swap space pre-allocated as LVMs LV. We [reclaim this space](TBD)
 
-Issues:
------
-
-launch-DO - If SSH key is not registered on DO this playbook will fail (FIXME).
-
-The launch-DO.yml playbook was not "idempotent" - on the second attempt it failed on prohibited root-login.
-(AllowGroups sudo) - sshd_config loosened a bit (AllowGroups line commented out, RootLogin enabled) until better solution is found.
-
-If playbook failed on timeout you may restart it but do not use launch.retry (may need dynamic inventory - FIXME).
-Re-running from the start is the only option now.
-There's very little time lost in case of `launch-DO` in that case, `relaunch-A` is a different story ;)
-
-Checked with Ansible 2.7 from PPA & 2.8dev0 on Ubuntu 18.04/18.10 with Python 2.7
-Last update Dec 27, 2018.
+Checked with Ansible 2.7 & 2.8dev0 on Ubuntu 18.04/18.10.
+Last update March 5, 2019.

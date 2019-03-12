@@ -1,0 +1,10 @@
+# to-do ansible_user
+adm_user: "{{ lookup('env', 'USERNAME') }}"
+adm_groups: sudo
+adm_pubkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+todo_port: 2222
+
+swap_file: /swapfile
+swap_size: 1025M
+swap_swappiness: 10
+swap_vfs_cache_pressure: 50

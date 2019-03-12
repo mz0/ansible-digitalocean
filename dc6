@@ -1,0 +1,1 @@
+ansible-playbook listsrv-A.yml --extra-vars "arubadc=6"

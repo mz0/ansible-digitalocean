@@ -1,0 +1,6 @@
+vm:
+  cloud: arubacloudsmart
+  name: "{{ sname }}"
+  dc: "{{ dc }}"
+  doIPv6: yes
+root_pubkey:  "{{ adm_pubkey }}"

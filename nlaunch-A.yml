@@ -1,18 +1,15 @@
-- hosts: provisioner
+- hosts: um
   gather_facts: no
   vars_files:
-    group_vars/arubacloud.yml
+    - "group_vars/{{ group }}.yml"
+    - "host_vars/{{ inventory_hostname }}.yml"
   vars:
-  # aruba_account:
-  # aruba_password:
-  # wait_minutes: 20
-  # wait_ssh:      5
-    vm_provider: arubacloudsmart
-    dc: 1
-    vm_name: La
-    state: present
-  roles:
-    - um  # set_fact: um
+    state: "{{ lookup('env', 'UM')|default('present', true) }}"
+    ansible_python_interpreter: /usr/bin/python
 
   tasks:
-    - debug: msg="Server '{{vm_name}}' {{um.ip4}} {{um.ip6 | default('-')}}"
+    - include_vars:
+        file: "group_vars/{{ vm.cloud }}.yml"
+    - include_role: name=um
+    - debug: msg="Server {{ inventory_hostname }} {{ ansible_host }} {{vm.ip4}} {{vm.ip6 | default('-')}}"
+    - debug: var=vm

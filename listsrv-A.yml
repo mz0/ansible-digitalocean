@@ -1,4 +1,4 @@
-- hosts: provisioner
+- hosts: ArubaCloud
   gather_facts: no
   vars:
     arubau: "{{ lookup('ini', 'user   section='+acct+'  '+secrets) }}"
@@ -6,14 +6,15 @@
     secrets: file=~/.ssh/aruba/ansible.ini
     acct: acct0
     wait_minutes: 20
+    dc: "{{ arubadc | default(1) }}"
 
   tasks:
-    - name: Get servers DC1
+    - name: Get servers DC{{ dc }}
       it_aruba_smart:
         user: "{{ arubau }}"
         password: "{{ arubap }}"
-        dc: 1
+        dc: "{{ dc }}"
       register: r1
-    - name: Show servers in DC1
+    - name: Show servers in DC{{ dc }}
       debug: msg="Busy:{{ item.busy }} ID:{{ item.id }} IP {{ item.ip4 }} name:{{ item.name }}"
       loop: "{{ r1.srv }}"

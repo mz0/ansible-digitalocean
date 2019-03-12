@@ -1,6 +1,0 @@
-vm_name: La
-dc:   1  # [127] IT[123], 3 - CZ1, 4 - FR1, 5 - DE1, 6 - UK1, 8 - PL1.
-size: S  # S 1vcpu-1gb-20, M 1vcpu-2gb-40, L 2vcpu-4gb-80, X 4vcpu-8gb-160.
-needIPv6: yes
-root_ssh_pk:  "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-ssh_set_port: 2222

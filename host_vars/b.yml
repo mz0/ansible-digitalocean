@@ -1,0 +1,8 @@
+vm:
+  cloud: digitalocean
+  name: "{{ sname }}"
+  size: "{{ size }}"
+  dc: "{{ dc }}"
+  doIPv6: yes
+  private_net: yes
+  image: debian-8-x64
