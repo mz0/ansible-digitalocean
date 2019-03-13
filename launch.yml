@@ -1,4 +1,5 @@
 - hosts: um
+  strategy: free
   gather_facts: no
   vars_files:
     - "group_vars/{{ group }}.yml"
@@ -10,6 +11,6 @@
   tasks:
     - include_vars:
         file: "group_vars/{{ vm.cloud }}.yml"
-    - include_role: name=um
+    - include_role: name=exactpro.um
     - debug: msg="Server {{ inventory_hostname }} {{ ansible_host }} {{vm.ip4}} {{vm.ip6 | default('-')}}"
     - debug: var=vm

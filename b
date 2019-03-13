@@ -1,3 +1,3 @@
 date -Iseconds
-ansible-playbook nlaunch-A.yml
+ansible-playbook "$@" launch.yml
 date -Iseconds

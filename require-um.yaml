@@ -1,0 +1,5 @@
+# To update run:
+#   ansible-galaxy install --force -r require-um.yaml
+- src: git+https://github.com/Exactpro/ansible-role-um.git
+  version: a3a3ed618e2320cf451d97b056b7a517fefe5a8f
+  name: exactpro.um

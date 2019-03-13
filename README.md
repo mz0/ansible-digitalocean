@@ -1,29 +1,38 @@
 Uniform cloud server environments
 =======================
 
-This is unfinished monolithik playbook transformation to a role-based one. Not much is working now!
+This is unfinished monolithik playbook transformation to a role-based one.
+
+What works (note dot '.'):
+```
+. b  # build or find 'um' group members [a,b]
+UM=pristine . b  # rebuild 'um' group members
+UM=pristine . b -lb  # rebuild only b
+```
 
 Installation
 ------------
 
 * Install Ansible 2.7.8 or newer (e.g. `pip install --user -r requirements.txt`).
 
-* Check do1.yml/ar1.yml and change the variables to your need.
+* Check hosts.ini, host_vars/[ab].yml, TBD and change the variables to your need.
 
 * Install `sshpass` for ArubaCloud (in Ubuntu enable `universe` repo & `apt install sshpass`).
+
+* Install `exactpro.um` role: `ansible-galaxy install --force -r require-um.yaml`
 
 Playbooks
 =========
 
 This Playbook should:
 
-- create/rebuild a VM (droplet in DO parlance), currently only Debian 8 x64 is the target.
-- replace systemd with sysvinit (Debian supports it, but not Ubuntu/Fedora)
-- change SSH port 22 -> 2222 (to lower script-kiddies generated noise)
-- configure swap file
-- install openntpd
-- configure sshd (PasswordAuthentication=no etc.)
-- configure sudoers
+- create/rebuild a VM (droplet in DO parlance), currently only Debian 8 x64 is the target - Ok!
+- replace systemd with sysvinit (Debian supports it, but not Ubuntu/Fedora) - TODO
+- change SSH port 22 -> 2222 (to lower script-kiddies generated noise) - Ok!
+- configure swap file - TODO
+- install openntpd - TODO
+- configure sshd (PasswordAuthentication=no etc.) - mostly done
+- configure sudoers - TODO this and the next three points
 - trim packages (leave only needed ones)
 - add 3rd-party repos for LEMP stack (Nginx, PHP5.6-7.3, MariaDB 10.x)
 - install the .EMP parts
@@ -46,9 +55,9 @@ you don't want them deleted at all.
 
 * put your username & password in a file like [doc/aruba-secrets.ini](doc/aruba-secrets.ini)
 
-* `listsrv-A.yml` lets you check ArubaCloud server status, queued task and its progress.
+* `listsrv-A.yml` lets you check ArubaCloud servers (in DC1, run `. dc6` for servers in DC6): IPs, status, queued task and task (e.g. rebuild) progress.
 
-* "Smart server" has Swap space pre-allocated as LVMs LV. We [reclaim this space](TBD)
+* "Smart server" has Swap space pre-allocated as LVMs LV. We reclaim this space (in um role)
 
-Checked with Ansible 2.7 & 2.8dev0 on Ubuntu 18.04/18.10.
-Last update March 5, 2019.
+Checked with Ansible 2.7 & 2.8dev0 on Ubuntu 18.10.
+Last update March 13, 2019.

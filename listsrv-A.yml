@@ -1,4 +1,4 @@
-- hosts: ArubaCloud
+- hosts: localhost
   gather_facts: no
   vars:
     arubau: "{{ lookup('ini', 'user   section='+acct+'  '+secrets) }}"
