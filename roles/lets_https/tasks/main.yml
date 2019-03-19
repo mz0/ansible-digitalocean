@@ -1,0 +1,27 @@
+- name: Check current certificate validity for the next 30 days
+  get_certificate:
+    host: "{{ ansible_host }}"
+    port: 443
+  delegate_to: localhost
+  run_once: true
+  ignore_errors: yes
+  register: cert
+- set_fact:
+    renew_cert: yes
+  delegate_to: localhost
+  when: (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - nowZ|to_datetime).total_seconds() <  30*24*3600
+# debug: var=cert.not_after
+
+- name: Webserver Private key re-new
+  openssl_privatekey:
+    path: "{{ server_privkey_new }}"
+    force: yes  # re-generate if exists?
+    mode: 0600
+  delegate_to: localhost
+  when: renew_cert is defined and renew_cert
+
+### requires pyOpenSSL (debian8: apt install python-openssl)
+# openssl_certificate:
+#   provider: assertonly
+#   path: "{{ https_cert }}"
+#   valid_in: "{{ 30*24*60*60 }}"

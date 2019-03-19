@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: yes  # need ansible_date_time
+  tasks:
+    - add_host:
+        name: x
+        ansible_host: 94.177.255.25
+        ansible_port: 20441
+        https_privkey: /etc/ssl/private/d35.x.pem
+        https_cert: /etc/ssl/certs/d35.x.pem
+        ansible_python_interpreter: auto_silent
+        nowZ: "{{ ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+      changed_when: false
+    - set_fact: nowZ={{ ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') }}
+- hosts: x
+  gather_facts: no
+  tasks:
+    - include_role: name=lets_https
+      vars:
+        acme_account_key_src: '~/.ssh/le-33935398.key'
+        domain: "d35.ru"
+        cert_name: "d35.x"
+        server_hostname: "x.{{ domain }}"
+        server_privkey_new: "~/.ssh/https/{{ cert_name }}.private"
+        server_csr_path: "vars/{{ cert_name }}.csr"
+        server_certificate: "vars/{{ cert_name }}.crt"
+    # register: m1
+    # debug: var=m1
