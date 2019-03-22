@@ -1,3 +1,5 @@
 /roles/um/
 /roles/lets_https0/
 /v
+/host_vars/*.crt
+/host_vars/*.csr

@@ -1,4 +1,5 @@
-- name: Check current certificate validity for the next 30 days
+### requires pyOpenSSL (debian8: apt install python-openssl)
+- name: Get current certificate if any
   get_certificate:
     host: "{{ ansible_host }}"
     port: 443
@@ -6,13 +7,15 @@
   run_once: true
   ignore_errors: yes
   register: cert
-- set_fact:
+# debug: var=cert
+
+- name: Check current certificate validity for the next 30 days
+  set_fact:
     renew_cert: yes
   delegate_to: localhost
-  when: (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - nowZ|to_datetime).total_seconds() <  30*24*3600
-# debug: var=cert.not_after
+  when: cert.failed or (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - nowZ|to_datetime).total_seconds() <  30*24*3600
 
-- name: Webserver Private key re-new
+- name: Generate a new Webserver Private key
   openssl_privatekey:
     path: "{{ server_privkey_new }}"
     force: yes  # re-generate if exists?
@@ -20,8 +23,72 @@
   delegate_to: localhost
   when: renew_cert is defined and renew_cert
 
-### requires pyOpenSSL (debian8: apt install python-openssl)
-# openssl_certificate:
-#   provider: assertonly
-#   path: "{{ https_cert }}"
-#   valid_in: "{{ 30*24*60*60 }}"
+- name: Prepare CSR
+  openssl_csr:
+    path: "{{ cert_csr }}"
+    privatekey_path: "{{ server_privkey_new }}"
+    common_name: "{{ server_hostname }}"
+    subject_alt_name: "{{ cert_names | map('regex_replace', '^(.*)$', 'DNS:\\1') | list }}"
+  delegate_to: localhost
+
+- name: 'LE: Request certificate issue'
+  acme_certificate:
+    acme_version: 2
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    challenge: dns-01
+    account_key_src: "{{ acme_account_key }}"
+    account_email: "{{ acme_account_email }}"
+    csr: "{{ cert_csr }}"
+    dest: "{{ cert_tmp }}"
+    remaining_days: "{{ cert_days }}"
+  delegate_to: localhost
+  register: acme_data
+
+- debug: var=acme_data
+  delegate_to: localhost
+
+- debug: var=acme_data.challenge_data_dns
+  delegate_to: localhost
+#  loop: "{{ acme_data.challenge_data_dns | dict2items }}"
+#  when: acme_data is changed
+
+- name: 'DNS-01: accept challenge'
+  cloudflare_dns:
+    zone: "{{ domain }}"
+    account_api_token: "{{ cloudflare_key }}"
+    account_email: "{{ cloudflare_email }}"
+    type: TXT
+    ttl: 120
+    state: present
+    record: "{{ item.value['dns-01'].record }}"
+    value:  "{{ item.value['dns-01'].resource_value }}"
+  delegate_to: localhost
+  with_dict: "{{ acme_data.challenge_data }}"
+  when: acme_data is changed
+# when: false
+
+- name: 'LE: check challenge response and get the certificate'
+  acme_certificate:
+    acme_version: 2
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    challenge: dns-01
+    account_key_src: "{{ acme_account_key }}"
+    csr: "{{ cert_csr }}"
+    dest: "{{ cert_tmp }}"
+    remaining_days: "{{ cert_days - 1 }}"
+    data: "{{ acme_data }}"
+  delegate_to: localhost
+  register: le_cert
+# when: false
+
+- name: 'Cloudflare DNS: Clean-up DNS-01 challenge response'
+  cloudflare_dns:
+    zone: "{{ domain }}"
+    account_api_token: "{{ cloudflare_key }}"
+    account_email: "{{ cloudflare_email }}"
+    type: TXT
+    state: absent
+    record: "{{ item.value['dns-01'].record }}"
+  delegate_to: localhost
+  with_dict: "{{acme_data.challenge_data}}"
+  when: acme_data is changed and le_cert is defined and le_cert is not skipped and le_cert is success

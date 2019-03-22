@@ -16,12 +16,17 @@
   tasks:
     - include_role: name=lets_https
       vars:
-        acme_account_key_src: '~/.ssh/le-33935398.key'
+        cloudflare_key: "{{ lookup('file', '~/.ssh/cloudflare/d35z') }}"
+        cloudflare_email: "d35z@mail.ru"
+        acme_account_key: '~/.ssh/le-33935398.key'
+        acme_account_email: "mz0@outlook.com"
         domain: "d35.ru"
         cert_name: "d35.x"
+        cert_days: 90
         server_hostname: "x.{{ domain }}"
         server_privkey_new: "~/.ssh/https/{{ cert_name }}.private"
-        server_csr_path: "vars/{{ cert_name }}.csr"
-        server_certificate: "vars/{{ cert_name }}.crt"
+        cert_names: ["{{ server_hostname}}", "www.{{ domain }}"]
+        cert_csr: "host_vars/{{ cert_name }}.csr"
+        cert_tmp: "host_vars/{{ cert_name }}.crt"
     # register: m1
     # debug: var=m1
