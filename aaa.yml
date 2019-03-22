@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: yes
+  vars:
+    ts1: 20190303181418Z
+    ts2: 20190415235959Z
+    #iso8601: '2019-03-18T14:22:58Z'
+    #ts2: "{{ lookup('pipe', 'date -u +%Y%m%d%H%M%SZ') }}"
+  tasks: 
+    - debug:
+        msg: "{{ (ts2|to_datetime('%Y%m%d%H%M%SZ') - ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') ).total_seconds() }}"
+      when: (ts2|to_datetime('%Y%m%d%H%M%SZ') - ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') ).total_seconds() < 30*24*3600
