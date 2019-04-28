@@ -7,18 +7,27 @@
   run_once: true
   ignore_errors: yes
   register: cert
-# debug: var=cert
 
 - name: Check current certificate validity for the next 30 days
   set_fact:
     renew_cert: yes
   delegate_to: localhost
-  when: cert.failed or (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - nowZ|to_datetime).total_seconds() <  30*24*3600
+  when: cert.failed or (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - _|nowZ|to_datetime('%Y%m%d%H%M%SZ')).total_seconds() <  30*24*3600
+
+- debug: msg="Current certificate is/was valid until {{ cert.not_after }}"
+  when: cert is success
+
+
+- name: Check if Webserver private key is here
+  stat: path={{ server_privkey_new }}
+  register: k0
+
+# name: Check if Webserver private key is less then 7 days old
 
 - name: Generate a new Webserver Private key
   openssl_privatekey:
     path: "{{ server_privkey_new }}"
-    force: yes  # re-generate if exists?
+    force: yes
     mode: 0600
   delegate_to: localhost
   when: renew_cert is defined and renew_cert
@@ -31,26 +40,16 @@
     subject_alt_name: "{{ cert_names | map('regex_replace', '^(.*)$', 'DNS:\\1') | list }}"
   delegate_to: localhost
 
-- name: 'LE: Request certificate issue'
+- name: 'ACME step 1: Request certificate issue (get challenge)'
   acme_certificate:
     acme_version: 2
     acme_directory: https://acme-v02.api.letsencrypt.org/directory
     challenge: dns-01
     account_key_src: "{{ acme_account_key }}"
-    account_email: "{{ acme_account_email }}"
     csr: "{{ cert_csr }}"
     dest: "{{ cert_tmp }}"
-    remaining_days: "{{ cert_days }}"
   delegate_to: localhost
   register: acme_data
-
-- debug: var=acme_data
-  delegate_to: localhost
-
-- debug: var=acme_data.challenge_data_dns
-  delegate_to: localhost
-#  loop: "{{ acme_data.challenge_data_dns | dict2items }}"
-#  when: acme_data is changed
 
 - name: 'DNS-01: accept challenge'
   cloudflare_dns:
@@ -60,14 +59,13 @@
     type: TXT
     ttl: 120
     state: present
-    record: "{{ item.value['dns-01'].record }}"
-    value:  "{{ item.value['dns-01'].resource_value }}"
+    record: "{{ item.value['dns-01']['record'] }}"
+    value:  "{{ item.value['dns-01']['resource_value'] }}"
   delegate_to: localhost
-  with_dict: "{{ acme_data.challenge_data }}"
-  when: acme_data is changed
-# when: false
+  loop: "{{ lookup('dict', acme_data.challenge_data) }}"
+  when: "acme_data is changed and 'dns-01' in item.value"
 
-- name: 'LE: check challenge response and get the certificate'
+- name: 'ACME step 2: check DNS-01 challenge response and get the certificate'
   acme_certificate:
     acme_version: 2
     acme_directory: https://acme-v02.api.letsencrypt.org/directory
@@ -75,11 +73,10 @@
     account_key_src: "{{ acme_account_key }}"
     csr: "{{ cert_csr }}"
     dest: "{{ cert_tmp }}"
-    remaining_days: "{{ cert_days - 1 }}"
+    remaining_days: "{{ cert_days }}"
     data: "{{ acme_data }}"
   delegate_to: localhost
   register: le_cert
-# when: false
 
 - name: 'Cloudflare DNS: Clean-up DNS-01 challenge response'
   cloudflare_dns:
@@ -92,3 +89,17 @@
   delegate_to: localhost
   with_dict: "{{acme_data.challenge_data}}"
   when: acme_data is changed and le_cert is defined and le_cert is not skipped and le_cert is success
+
+- name: Set new Webserver private key
+  copy: src={{ server_privkey_new }} dest={{ https_privkey }}
+  become: yes
+  register: k1
+
+- name: Set new Webserver certificate
+  copy: src={{ cert_tmp }} dest={{ https_cert }}
+  register: c1
+
+- name: Cleanup
+  file: path={{ server_privkey_new }} state=absent
+  delegate_to: localhost
+  when: k1 is success and c1 is success

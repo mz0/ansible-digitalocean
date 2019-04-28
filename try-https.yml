@@ -1,5 +1,5 @@
 - hosts: localhost
-  gather_facts: yes  # need ansible_date_time
+  gather_facts: no
   tasks:
     - add_host:
         name: x
@@ -7,10 +7,12 @@
         ansible_port: 20441
         https_privkey: /etc/ssl/private/d35.x.pem
         https_cert: /etc/ssl/certs/d35.x.pem
+#       https_privkey: "/etc/ssl/private/privkey.pem"
+#       https_cert: "/home/mz0/dehydrated/certs/y.d35.ru/cert.pem"
+#       https_privkey: "/Users/mz0/.ssh/d35x/privkey.pem"
+#       https_cert: "/etc/nginx/sec.d35.pem"  # litvaxx
         ansible_python_interpreter: auto_silent
-        nowZ: "{{ ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
       changed_when: false
-    - set_fact: nowZ={{ ansible_date_time.iso8601|to_datetime('%Y-%m-%dT%H:%M:%SZ') }}
 - hosts: x
   gather_facts: no
   tasks:
@@ -28,5 +30,3 @@
         cert_names: ["{{ server_hostname}}", "www.{{ domain }}"]
         cert_csr: "host_vars/{{ cert_name }}.csr"
         cert_tmp: "host_vars/{{ cert_name }}.crt"
-    # register: m1
-    # debug: var=m1

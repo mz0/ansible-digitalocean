@@ -3,3 +3,5 @@
 /v
 /host_vars/*.crt
 /host_vars/*.csr
+__pycache__
+*.pyc

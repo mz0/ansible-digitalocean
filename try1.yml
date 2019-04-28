@@ -5,7 +5,7 @@
     cloudflare_email: "d35z@mail.ru"
     acme_account_key: '~/.ssh/le-33935398.key'
     acme_account_email: "mz0@outlook.com"
-    server_name: z
+    server_name: y
     domain: "d35.ru"
     cert_name: "d35.{{ server_name }}"
     cert_days: 90
@@ -14,6 +14,12 @@
     cert_names: ["{{ server_hostname}}", "www.{{ domain }}"]
     cert_csr: "host_vars/{{ cert_name }}.csr"
     cert_tmp: "host_vars/{{ cert_name }}.crt"
+    cert_tgt: "/etc/ssl/certs/d35.y.crt"
+    cert_key: "/etc/ssl/private/{{ cert_name }}.key"
+    #cert_tgt: "/home/mz0/dehydrated/certs/y.d35.ru/cert.pem"
+    #cert_key: "/etc/ssl/private/privkey.pem"
+    # cert_tgt: "/etc/nginx/sec.d35.pem"  # litvaxx
+    # cert_key: "/Users/mz0/.ssh/d35x/privkey.pem"
   tasks:
     - name: Webserver Private key (always re-new)
       openssl_privatekey:
@@ -41,9 +47,9 @@
       register: acme_data
 
     - debug:
-        msg: "{{ item }}"
-    #   msg: "Record:{{ item.value['dns-01']['record'] }} - Value:{{ item.value['dns-01'].resource_value }}"
-      loop: "{{ acme_data.challenge_data | dict2items }}"
+        msg: "Record:{{ item.value['dns-01']['record'] }} / Value:{{ item.value['dns-01'].resource_value }}"
+      loop: "{{ lookup('dict', acme_data.challenge_data) }}"
+      when: "acme_data is changed and 'dns-01' in item.value"
 
     - cloudflare_dns:
         zone: "{{ domain }}"

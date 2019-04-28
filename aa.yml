@@ -1,93 +1,36 @@
 - hosts: localhost
   gather_facts: no
-  vars: 
-    acme_data:
-      account_uri: https://acme-v02.api.letsencrypt.org/acme/acct/33935398
-      authorizations:
-        www.d35.ru:
-          challenges:
-          - status: pending
-            token: RS1LeoLB_gsnXrZh-EfF7GxFzU5yT_fcFIqob-tQiWU
-            type: http-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/yxggyga7BhkqMKZHT3JfeuGKgyzQDY2V3rydZ9Td1BU/13813272958
-          - status: pending
-            token: KCUU7WqFFLdfFSeBzOANRb5iLXIuDL-DqQZMGewaKXI
-            type: tls-alpn-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/yxggyga7BhkqMKZHT3JfeuGKgyzQDY2V3rydZ9Td1BU/13813272961
-          - status: pending
-            token: b_JQATMi0hV64akCgNlZRClY5pVjsUjNI3pefH2fjjw
-            type: dns-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/yxggyga7BhkqMKZHT3JfeuGKgyzQDY2V3rydZ9Td1BU/13813272965
-          expires: '2019-03-26T11:30:15Z'
-          identifier:
-            type: dns
-            value: www.d35.ru
-          status: pending
-          uri: https://acme-v02.api.letsencrypt.org/acme/authz/yxggyga7BhkqMKZHT3JfeuGKgyzQDY2V3rydZ9Td1BU
-        x.d35.ru:
-          challenges:
-          - status: pending
-            token: mvNRR_rdgTDW9ArqUDvfNluGDq4cpKlI-Y0hn_jO164
-            type: dns-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/DcMNBfXvlBrGNF0Vqyu6Yf_jFhbOKi5dfPL4FF3RGzE/13813272975
-          - status: pending
-            token: 8IwtOAFy5KbKZP5nO8vYksIMTogs-s2vAGeMRoQJZGg
-            type: tls-alpn-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/DcMNBfXvlBrGNF0Vqyu6Yf_jFhbOKi5dfPL4FF3RGzE/13813272976
-          - status: pending
-            token: SeB3WJ-F9pZ7g2Sm09BS1zPv_N9dX0Tw78IDVTN36xQ
-            type: http-01
-            url: https://acme-v02.api.letsencrypt.org/acme/challenge/DcMNBfXvlBrGNF0Vqyu6Yf_jFhbOKi5dfPL4FF3RGzE/13813272977
-          expires: '2019-03-26T11:30:15Z'
-          identifier:
-            type: dns
-            value: x.d35.ru
-          status: pending
-          uri: https://acme-v02.api.letsencrypt.org/acme/authz/DcMNBfXvlBrGNF0Vqyu6Yf_jFhbOKi5dfPL4FF3RGzE
-      cert_days: -1
-      challenge_data:
-        www.d35.ru:
-          dns-01:
-            record: _acme-challenge.www.d35.ru
-            resource: _acme-challenge
-            resource_value: 4pfGLp8KTnu6aaV_PXihcaYHUmPE0Df6r5OneNKfLos
-          http-01:
-            resource: .well-known/acme-challenge/RS1LeoLB_gsnXrZh-EfF7GxFzU5yT_fcFIqob-tQiWU
-            resource_value: RS1LeoLB_gsnXrZh-EfF7GxFzU5yT_fcFIqob-tQiWU.su63bJ_vTIf2DOQU5eT8CrieFUl1G34A4_7RUFkI99E
-          tls-alpn-01:
-            resource: www.d35.ru
-            resource_original: dns:www.d35.ru
-            resource_value: 1niwyXcW3nR93ScwcBXK4eKfvjbXUrSabks/zPlYrQ8=
-        x.d35.ru:
-          dns-01:
-            record: _acme-challenge.x.d35.ru
-            resource: _acme-challenge
-            resource_value: 8hjS_fjj6YNEaS5Nb8Vwqz-QvhwbwgigmYkDXgJ8n-I
-          http-01:
-            resource: .well-known/acme-challenge/SeB3WJ-F9pZ7g2Sm09BS1zPv_N9dX0Tw78IDVTN36xQ
-            resource_value: SeB3WJ-F9pZ7g2Sm09BS1zPv_N9dX0Tw78IDVTN36xQ.su63bJ_vTIf2DOQU5eT8CrieFUl1G34A4_7RUFkI99E
-          tls-alpn-01:
-            resource: x.d35.ru
-            resource_original: dns:x.d35.ru
-            resource_value: UbLc/xRgVyq8iKlTNtvt6StV1agfOG1YHgo73jEDZD0=
-      challenge_data_dns:
-        _acme-challenge.www.d35.ru:
-        - 4pfGLp8KTnu6aaV_PXihcaYHUmPE0Df6r5OneNKfLos
-        _acme-challenge.x.d35.ru:
-        - 8hjS_fjj6YNEaS5Nb8Vwqz-QvhwbwgigmYkDXgJ8n-I
-      changed: true
-      failed: false
-      finalize_uri: https://acme-v02.api.letsencrypt.org/acme/finalize/33935398/361776430
-      order_uri: https://acme-v02.api.letsencrypt.org/acme/order/33935398/361776430
-
+# vars:
+#   ts1: 20190303181418Z
+#   iso8601: 2019-03-31T14:40:04Z
   tasks:
-    - debug: msg="{{ item.value['dns-01'].record }}"
-      loop: "{{ lookup('dict', acme_data.challenge_data) }}"
-      when: "'dns-01' in item.value"
-    - debug: msg="{{ (lookup('dict', item))[1] }}"
-      loop: "{{ lookup('dict', acme_data.challenge_data) }}"
-      when: "'dns-01' in item.value"
-    # debug: msg="{{ item.value['dns-01'].record }}:{{ item.value['dns-01'].resource_value }}"
-    # with_dict: "{{acme_data.challenge_data}}"
-    # debug: msg="{{ item.value['dns-01']['record'] }}:{{ item.value['dns-01']['resource_value'] }}"
-    # loop: "{{ acme_data.challenge_data|dict2items }}"
+    - debug: msg="{{ _|nowZ }}"
+    # debug: msg="{{ ansible_date_time.iso8601 }}"
+    - name: Get current certificate if any
+      get_certificate:
+        host: y.d35.ru
+        port: 443
+      delegate_to: localhost
+      run_once: true
+      ignore_errors: yes
+      register: cert
+
+    - name: Check current certificate validity for the next 30 days
+      set_fact:
+        renew_cert: yes
+      delegate_to: localhost
+      when: cert.failed or (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - _|nowZ|to_datetime('%Y%m%d%H%M%SZ')).total_seconds() <  30*24*3600
+    - debug: msg="Renew"
+      when: renew_cert|bool
+
+#   - tempfile:
+#     register: f0
+#   - debug: msg="{{ f0.path }}"
+#   - stat: path={{ f0.path }}
+#     register: f0
+#   - set_fact: t0={{ f0.stat.mtime }}
+#   - debug: var=f0
+#   - file: path="{{ f0.stat.path }}" state=touch
+#   - stat: path={{ f0.stat.path }}
+#     register: f0
+#   - debug: msg="{{ f0.stat.mtime - t0|float }}"
