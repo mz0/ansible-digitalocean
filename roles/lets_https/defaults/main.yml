@@ -1,2 +1,2 @@
----
-# defaults file for lets_https
+cert_csr: "host_vars/{{ cert_name }}.csr"
+cert_tmp: "host_vars/{{ cert_name }}.crt"

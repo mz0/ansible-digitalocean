@@ -1,0 +1,61 @@
+- name: Generate a new private key if old or missing
+  openssl_privatekey:  # requires pyOpenSSL (debian8: apt install python-openssl)
+    path: "{{ privkey_tmp }}"
+    force: yes
+    mode: 0600
+  when: renew_key|bool
+
+- name: Prepare CSR
+  openssl_csr:
+    path: "{{ cert_csr }}"
+    privatekey_path: "{{ privkey_tmp }}"
+    common_name: "{{ server_fqdn }}"
+    subject_alt_name: "{{ cert_SAN | map('regex_replace', '^(.*)$', 'DNS:\\1') | list }}"
+
+- name: 'ACME step 1: Request certificate issue (get challenge)'
+  acme_certificate:
+    acme_version: 2
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    challenge: dns-01
+    account_key_src: "{{ acme_account_key }}"
+    csr: "{{ cert_csr }}"
+    dest: "{{ cert_tmp }}"
+    force: yes
+  when: renew_cert is defined and renew_cert|bool
+  register: acme_data
+
+- name: 'DNS-01: accept challenge'
+  cloudflare_dns:
+    zone: "{{ domain }}"
+    account_api_token: "{{ cloudflare_key }}"
+    account_email: "{{ cloudflare_email }}"
+    type: TXT
+    ttl: 120
+    state: present
+    record: "{{ item.value['dns-01']['record'] }}"
+    value:  "{{ item.value['dns-01']['resource_value'] }}"
+  loop: "{{ lookup('dict', acme_data.challenge_data) }}"
+  when: "acme_data is changed and 'dns-01' in item.value"
+
+- name: 'ACME step 2: check DNS-01 challenge response and get the certificate'
+  acme_certificate:
+    acme_version: 2
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    challenge: dns-01
+    account_key_src: "{{ acme_account_key }}"
+    csr: "{{ cert_csr }}"
+    dest: "{{ cert_tmp }}"
+    remaining_days: "{{ cert_days }}"
+    data: "{{ acme_data }}"
+  register: le_cert
+
+- name: 'Cloudflare DNS: Clean-up DNS-01 challenge response'
+  cloudflare_dns:
+    zone: "{{ domain }}"
+    account_api_token: "{{ cloudflare_key }}"
+    account_email: "{{ cloudflare_email }}"
+    type: TXT
+    state: absent
+    record: "{{ item.value['dns-01'].record }}"
+  with_dict: "{{acme_data.challenge_data}}"
+  when: acme_data is changed and le_cert is defined and le_cert is not skipped and le_cert is success

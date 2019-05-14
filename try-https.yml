@@ -5,13 +5,7 @@
         name: x
         ansible_host: 94.177.255.25
         ansible_port: 20441
-        https_privkey: /etc/ssl/private/d35.x.pem
-        https_cert: /etc/ssl/certs/d35.x.pem
-#       https_privkey: "/etc/ssl/private/privkey.pem"
-#       https_cert: "/home/mz0/dehydrated/certs/y.d35.ru/cert.pem"
-#       https_privkey: "/Users/mz0/.ssh/d35x/privkey.pem"
-#       https_cert: "/etc/nginx/sec.d35.pem"  # litvaxx
-        ansible_python_interpreter: auto_silent
+        ansible_python_interpreter: /usr/bin/python  # auto_silent
       changed_when: false
 - hosts: x
   gather_facts: no
@@ -23,10 +17,21 @@
         acme_account_key: '~/.ssh/le-33935398.key'
         acme_account_email: "mz0@outlook.com"
         domain: "d35.ru"
-        cert_name: "d35.x"
+        server_hostname: "x"
+        cert_name: "d35.{{ server_hostname }}"
         cert_days: 90
-        server_hostname: "x.{{ domain }}"
-        server_privkey_new: "~/.ssh/https/{{ cert_name }}.private"
-        cert_names: ["{{ server_hostname}}", "www.{{ domain }}"]
-        cert_csr: "host_vars/{{ cert_name }}.csr"
-        cert_tmp: "host_vars/{{ cert_name }}.crt"
+        server_fqdn: "{{ server_hostname }}.{{ domain }}"
+        privkey_tmp: "host_vars/{{ cert_name }}.private"
+        cert_SAN: ["{{ server_fqdn }}", "www.{{ domain }}"]
+        https_cert: "/etc/ssl/certs/{{ cert_name }}.crt"
+        https_privkey: "/etc/ssl/private/{{ cert_name }}.key"
+
+##      https_privkey: /etc/ssl/private/d35.x.pem
+#       https_cert: /etc/ssl/certs/d35.x.pem
+##      https_privkey: "/etc/ssl/private/privkey.pem"
+#       https_cert: "/home/mz0/dehydrated/certs/y.d35.ru/cert.pem"
+##      https_privkey: "/Users/mz0/.ssh/d35x/privkey.pem"
+#       https_cert: "/etc/nginx/sec.d35.pem"  # litvaxx
+
+# cert_csr: "host_vars/{{ cert_name }}.csr"
+# cert_tmp: "host_vars/{{ cert_name }}.crt"

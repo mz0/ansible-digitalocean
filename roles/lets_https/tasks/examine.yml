@@ -1,0 +1,22 @@
+### requires pyOpenSSL (debian8: apt install python-openssl)
+- name: Get current certificate if any
+  get_certificate:
+    host: "{{ ansible_host }}"
+    port: 443
+  run_once: true
+  ignore_errors: yes
+  register: cert
+
+- name: Check current certificate validity for the next 30 days
+  set_fact:
+    renew_cert={{ cert.failed  or (cert.not_after|to_datetime('%Y%m%d%H%M%SZ') - _|nowZ|to_datetime('%Y%m%d%H%M%SZ')).total_seconds() <  30*24*3600 }}
+
+- debug: msg="Current certificate is/was valid until {{ cert.not_after }}"
+  when: cert is success
+
+- name: Check if we have this Webserver's private key
+  stat: path={{ privkey_tmp }}
+  register: k0
+
+- name: Check whether Webserver private key is older than 7 days
+  set_fact: renew_key="{{ not k0.stat.exists or ((_|nowS - k0.stat.mtime) > 7*24*3600) }}"

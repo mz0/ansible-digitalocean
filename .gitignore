@@ -1,6 +1,7 @@
 /roles/um/
 /roles/lets_https0/
 /v
+/host_vars/*.private
 /host_vars/*.crt
 /host_vars/*.csr
 __pycache__
