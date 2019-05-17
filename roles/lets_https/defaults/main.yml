@@ -1,2 +1,3 @@
+must_be_valid_in_N_seconds: 30*24*60*60
 cert_csr: "host_vars/{{ cert_name }}.csr"
 cert_tmp: "host_vars/{{ cert_name }}.crt"

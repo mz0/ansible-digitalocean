@@ -1,12 +1,14 @@
-- name: Set new Webserver private key
-  copy: src={{ privkey_tmp }} dest={{ https_privkey }}
-  become: yes
-  register: k1
-
 - name: Set new Webserver certificate
   copy: src={{ cert_tmp }} dest={{ https_cert }}
-  become: yes
+# become: yes
   register: c1
+
+- name: Set new Webserver private key
+# copy: src={{ privkey_tmp }} dest={{ https_privkey }}
+# become: yes
+  debug: msg="Please copy {{ privkey_tmp }} to {{ https_privkey }} and reload Nginx by hand!"
+  register: k1
+  failed_when: yes
 
 - name: Restart Nginx server
   service: name=nginx state=reloaded
@@ -15,5 +17,4 @@
 
 - name: Cleanup
   file: path={{ privkey_tmp }} state=absent
-  delegate_to: localhost
   when: k1 is success and c1 is success

@@ -1,13 +1,5 @@
-- name: Examine current certificate if any and wheather we need a new private key.
-  block:
-    - include_tasks: examine.yml
-
-    - name: Temp debug
-      debug: msg="renew_cert={{ renew_cert }}, renew_key={{ renew_key }}"
-
-    - name: 'Issue certificate if expired or about to expire in 30 days'
-      include_tasks: issue.yml
-  delegate_to: localhost
+- name: Make a certificate
+  include_tasks: issue.yml
 
 - name: Copy certificate/key and clean-up on success
   include_tasks: install.yml

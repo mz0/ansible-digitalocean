@@ -3,6 +3,7 @@
     path: "{{ privkey_tmp }}"
     force: yes
     mode: 0600
+  delegate_to: localhost
   when: renew_key|bool
 
 - name: Prepare CSR
@@ -11,6 +12,7 @@
     privatekey_path: "{{ privkey_tmp }}"
     common_name: "{{ server_fqdn }}"
     subject_alt_name: "{{ cert_SAN | map('regex_replace', '^(.*)$', 'DNS:\\1') | list }}"
+  delegate_to: localhost
 
 - name: 'ACME step 1: Request certificate issue (get challenge)'
   acme_certificate:
@@ -21,6 +23,7 @@
     csr: "{{ cert_csr }}"
     dest: "{{ cert_tmp }}"
     force: yes
+  delegate_to: localhost
   when: renew_cert is defined and renew_cert|bool
   register: acme_data
 
@@ -34,6 +37,7 @@
     state: present
     record: "{{ item.value['dns-01']['record'] }}"
     value:  "{{ item.value['dns-01']['resource_value'] }}"
+  delegate_to: localhost
   loop: "{{ lookup('dict', acme_data.challenge_data) }}"
   when: "acme_data is changed and 'dns-01' in item.value"
 
@@ -47,6 +51,7 @@
     dest: "{{ cert_tmp }}"
     remaining_days: "{{ cert_days }}"
     data: "{{ acme_data }}"
+  delegate_to: localhost
   register: le_cert
 
 - name: 'Cloudflare DNS: Clean-up DNS-01 challenge response'
@@ -57,5 +62,6 @@
     type: TXT
     state: absent
     record: "{{ item.value['dns-01'].record }}"
+  delegate_to: localhost
   with_dict: "{{acme_data.challenge_data}}"
   when: acme_data is changed and le_cert is defined and le_cert is not skipped and le_cert is success

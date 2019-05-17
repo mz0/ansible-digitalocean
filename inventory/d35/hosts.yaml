@@ -1,0 +1,21 @@
+all:
+  hosts:
+    x:
+      ansible_host: uk1
+      ansible_python_interpreter: /usr/bin/python
+    z:
+      ansible_host: de1
+      ansible_python_interpreter: /usr/bin/python
+    tb:
+      ansible_host: litvaxx
+      ansible_python_interpreter: /usr/bin/python
+      https_cert: "/etc/nginx/d35.tb.crt"
+      https_privkey: "/etc/nginx/d35.tb.key"
+      renew_key: yes
+      renew_cert: yes
+    y:
+      ansible_host: localhost
+      ansible_connection: local
+      ansible_python_interpreter: /usr/bin/python3
+      renew_key: no
+      renew_cert: yes

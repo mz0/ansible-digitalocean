@@ -1,0 +1,21 @@
+# hosts: all
+# hosts: [y, tb]
+- hosts: tb
+  gather_facts: no
+  tasks:
+    - include_role: name=lets_https
+      vars:
+        cloudflare_key: "{{ lookup('file', '~/.ssh/cloudflare/d35z') }}"
+        cloudflare_email: "d35z@mail.ru"
+        acme_account_key: '~/.ssh/le-33935398.key'
+        acme_account_email: "mz0@outlook.com"
+        domain: "d35.ru"
+        server_hostname: "{{ inventory_hostname }}"
+        cert_name: "d35.{{ server_hostname }}"
+        cert_days: 90
+        server_fqdn: "{{ server_hostname }}.{{ domain }}"
+        privkey_tmp: "~/.ssh/https/{{ cert_name }}.private"
+        cert_SAN: ["{{ server_fqdn }}", "www.{{ domain }}"]
+#       https_cert: "/etc/ssl/certs/{{ cert_name }}.crt"
+#       https_privkey: "/etc/ssl/private/{{ cert_name }}.key"
+
